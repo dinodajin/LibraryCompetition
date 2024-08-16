@@ -32,18 +32,19 @@ public class MemberController {
     }
 
     @PostMapping("")
-    public ResponseEntity<MemberDTO> createMember(MemberDTO memberDTO) {
+    public ResponseEntity<MemberDTO> createMember(@RequestBody MemberDTO memberDTO) {
         return new ResponseEntity<>(memberService.createMember(memberDTO), HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<MemberDTO> updateMember(MemberDTO memberDTO) {
+    public ResponseEntity<MemberDTO> updateMember(@RequestBody MemberDTO memberDTO) {
         return new ResponseEntity<>(memberService.updateMember(memberDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("")
-    public ResponseEntity<Void> deleteMember(String memberId) {
-        return new ResponseEntity<>(memberService.deleteMember(memberId), HttpStatus.OK);
+    public ResponseEntity<Void> deleteMember(@PathVariable String memberId) {
+        memberService.deleteMember(memberId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

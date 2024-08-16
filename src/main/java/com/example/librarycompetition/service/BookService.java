@@ -7,6 +7,7 @@ import com.example.librarycompetition.exception.ResourceNotFoundException;
 import com.example.librarycompetition.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,12 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
+    @Transactional
     public BookDTO getOneBook(String bookId) {
         return BookDTO.from(bookRepository.findByBookId(bookId).orElseThrow(ResourceNotFoundException::new));
     }
 
+    @Transactional
     public List<BookDTO> getAllBook() {
         List<Book> books = bookRepository.findAll();
 
@@ -36,6 +39,7 @@ public class BookService {
         return bookDTOs;
     }
 
+    @Transactional
     public List<BookDTO> getBooksByBookTitle(String bookTitle) {
         List<Book> books = bookRepository.findBooksByBookTitle(bookTitle);
 
@@ -51,6 +55,7 @@ public class BookService {
         return bookDTOs;
     }
 
+    @Transactional
     public List<BookDTO> getBooksByBookAuthor(String bookAuthor) {
         List<Book> books = bookRepository.findBooksByBookAuthor(bookAuthor);
 
@@ -66,6 +71,7 @@ public class BookService {
         return bookDTOs;
     }
 
+    @Transactional
     public List<BookDTO> getBooksByBookDamage(Integer bookDamage) {
         List<Book> books = bookRepository.findBooksByBookDamage(bookDamage);
 
@@ -81,6 +87,7 @@ public class BookService {
         return bookDTOs;
     }
 
+    @Transactional
     public List<BookDTO> getBooksByBookLabel(String bookLabel) {
         List<Book> books = bookRepository.findBooksByBookLabel(bookLabel);
 
@@ -96,14 +103,17 @@ public class BookService {
         return bookDTOs;
     }
 
+    @Transactional
     public BookDTO createBook(BookDTO bookDTO) {
         return BookDTO.from(bookRepository.insert(bookDTO.toEntity()));
     }
 
+    @Transactional
     public BookDTO updateBook(BookDTO bookDTO) {
         return BookDTO.from(bookRepository.save(bookRepository.findByBookId(bookDTO.bookId()).orElseThrow(ResourceNotFoundException::new)));
     }
 
+    @Transactional
     public void deleteBook(String bookId) {
         bookRepository.deleteByBookId(bookId);
     }
