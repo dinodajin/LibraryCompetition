@@ -58,7 +58,7 @@ public class BookControllerUnitTest {
             // when & then
             mockMvc.perform(get("/book/get/" + bookId)
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.round").value(bookId))
+                    .andExpect(jsonPath("$.bookId").value(bookId))
                     .andExpect(status().isOk());
         }
 
