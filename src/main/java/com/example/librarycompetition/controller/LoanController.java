@@ -21,47 +21,56 @@ public class LoanController {
 
     @GetMapping("/get/{loanId}")
     public ResponseEntity<LoanDTO> getOneLoan(@PathVariable String loanId) {
+        log.info("getOneLoan : loanId = {}", loanId);
         return new ResponseEntity<>(loanService.getOneLoan(loanId), HttpStatus.OK);
     }
 
     @GetMapping("/get/all")
     public ResponseEntity<List<LoanDTO>> getAllLoan() {
+        log.info("getAllLoan");
         return new ResponseEntity<>(loanService.getAllLoan(), HttpStatus.OK);
     }
 
     @GetMapping("/get/memberId/{memberId}")
     public ResponseEntity<List<LoanDTO>> getLoansByMemberId(@PathVariable String memberId) {
+        log.info("getLoansByMemberId : memberId = {}", memberId);
         return new ResponseEntity<>(loanService.getLoansByMemberId(memberId), HttpStatus.OK);
     }
 
     @GetMapping("/get/bookId/{bookId}")
     public ResponseEntity<List<LoanDTO>> getLoansByBookId(@PathVariable String bookId) {
+        log.info("getLoansByBookId : bookId = {}", bookId);
         return new ResponseEntity<>(loanService.getLoansByBookId(bookId), HttpStatus.OK);
     }
 
     @GetMapping("/get/currentLoan")
     public ResponseEntity<List<LoanDTO>> getLoansByLoanTimeIsNotNullAndReturnTimeIsNull() {
+        log.info("getLoansByLoanTimeIsNotNullAndReturnTimeIsNull");
         return new ResponseEntity<>(loanService.getLoansByLoanTimeIsNotNullAndReturnTimeIsNull(), HttpStatus.OK);
     }
 
     @GetMapping("/get/loanTime")
     public ResponseEntity<List<LoanDTO>> getLoansByLoanTimeBetween(@RequestParam LocalDate startDate,
                                                                    @RequestParam LocalDate endDate) {
+        log.info("getLoansByLoanTimeBetween : startDate = {}, endDate = {}", startDate, endDate);
         return new ResponseEntity<>(loanService.getLoansByLoanTimeBetween(startDate, endDate), HttpStatus.OK);
     }
 
     @PostMapping("/create")
     public ResponseEntity<LoanDTO> createLoan(@RequestBody LoanDTO loanDTO) {
+        log.info("createLoan : loanDTO = {}", loanDTO);
         return new ResponseEntity<>(loanService.createLoan(loanDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<LoanDTO> updateLoan(@RequestBody LoanDTO loanDTO) {
+        log.info("updateLoan : loanDTO = {}", loanDTO);
         return new ResponseEntity<>(loanService.updateLoan(loanDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteLoan(@RequestParam String loanId) {
+        log.info("deleteLoan : loanId = {}", loanId);
         loanService.deleteLoan(loanId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

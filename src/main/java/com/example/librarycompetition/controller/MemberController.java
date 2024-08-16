@@ -20,31 +20,37 @@ public class MemberController {
 
     @GetMapping("/get/{memberId}")
     public ResponseEntity<MemberDTO> getOneMember(@PathVariable String memberId) {
+        log.info("getOneMember : memberId = {}", memberId);
         return new ResponseEntity<>(memberService.getOneMember(memberId), HttpStatus.OK);
     }
 
     @GetMapping("/get/all")
     public ResponseEntity<List<MemberDTO>> getAllMembers() {
+        log.info("getAllMembers");
         return new ResponseEntity<>(memberService.getAllMember(), HttpStatus.OK);
     }
 
     @GetMapping("/get/memberName/{memberName}")
     public ResponseEntity<List<MemberDTO>> getMembersByMemberName(@PathVariable String memberName) {
+        log.info("getMembersByMemberName : memberName = {}", memberName);
         return new ResponseEntity<>(memberService.getMembersByMemberName(memberName), HttpStatus.OK);
     }
 
     @PostMapping("/create")
     public ResponseEntity<MemberDTO> createMember(@RequestBody MemberDTO memberDTO) {
+        log.info("createMember : memberDTO = {}", memberDTO);
         return new ResponseEntity<>(memberService.createMember(memberDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<MemberDTO> updateMember(@RequestBody MemberDTO memberDTO) {
+        log.info("updateMember : memberDTO = {}", memberDTO);
         return new ResponseEntity<>(memberService.updateMember(memberDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{memberId}")
     public ResponseEntity<Void> deleteMember(@PathVariable String memberId) {
+        log.info("deleteMember : memberId = {}", memberId);
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
