@@ -3,6 +3,7 @@ package com.example.librarycompetition.controller;
 import com.example.librarycompetition.dto.LoanDTO;
 import com.example.librarycompetition.service.LoanService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/loan")
 @RequiredArgsConstructor
@@ -17,48 +19,49 @@ public class LoanController {
 
     private final LoanService loanService;
 
-    @GetMapping("")
-    public ResponseEntity<LoanDTO> getOneLoan(String loanId) {
+    @GetMapping("/get/{loanId}")
+    public ResponseEntity<LoanDTO> getOneLoan(@PathVariable String loanId) {
         return new ResponseEntity<>(loanService.getOneLoan(loanId), HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/get/all")
     public ResponseEntity<List<LoanDTO>> getAllLoan() {
         return new ResponseEntity<>(loanService.getAllLoan(), HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<LoanDTO>> getLoansByMemberId(String memberId) {
+    @GetMapping("/get/memberId/{memberId}")
+    public ResponseEntity<List<LoanDTO>> getLoansByMemberId(@PathVariable String memberId) {
         return new ResponseEntity<>(loanService.getLoansByMemberId(memberId), HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<LoanDTO>> getLoansByBookId(String bookId) {
+    @GetMapping("/get/bookId/{bookId}")
+    public ResponseEntity<List<LoanDTO>> getLoansByBookId(@PathVariable String bookId) {
         return new ResponseEntity<>(loanService.getLoansByBookId(bookId), HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/get/currentLoan")
     public ResponseEntity<List<LoanDTO>> getLoansByLoanTimeIsNotNullAndReturnTimeIsNull() {
         return new ResponseEntity<>(loanService.getLoansByLoanTimeIsNotNullAndReturnTimeIsNull(), HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<LoanDTO>> getLoansByLoanTimeBetween(LocalDate startDate, LocalDate endDate) {
+    @GetMapping("/get/loanTime")
+    public ResponseEntity<List<LoanDTO>> getLoansByLoanTimeBetween(@RequestParam LocalDate startDate,
+                                                                   @RequestParam LocalDate endDate) {
         return new ResponseEntity<>(loanService.getLoansByLoanTimeBetween(startDate, endDate), HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public ResponseEntity<LoanDTO> createLoan(LoanDTO loanDTO) {
+    @PostMapping("/create")
+    public ResponseEntity<LoanDTO> createLoan(@RequestBody LoanDTO loanDTO) {
         return new ResponseEntity<>(loanService.createLoan(loanDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("")
-    public ResponseEntity<LoanDTO> updateLoan(LoanDTO loanDTO) {
+    @PutMapping("/update")
+    public ResponseEntity<LoanDTO> updateLoan(@RequestBody LoanDTO loanDTO) {
         return new ResponseEntity<>(loanService.updateLoan(loanDTO), HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<Void> deleteLoan(String loanId) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteLoan(@RequestParam String loanId) {
         loanService.deleteLoan(loanId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
