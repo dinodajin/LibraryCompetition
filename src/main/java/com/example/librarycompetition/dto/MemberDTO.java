@@ -28,14 +28,14 @@ public record MemberDTO(
         );
     }
 
-    public Member toEntity(MemberDTO memberDTO) {
+    public Member toEntity() {
         return Member.builder()
-                .memberId(memberDTO.memberId)
-                .memberName(memberDTO.memberName)
-                .memberBirth(memberDTO.memberBirth)
-                .memberPhoneNumber(memberDTO.memberPhoneNumber)
-                .memberWarning(memberDTO.memberWarning)
-                .memberDamageCount(memberDTO.memberDamageCount)
+                .memberId(memberId)
+                .memberName(memberName)
+                .memberBirth(memberBirth)
+                .memberPhoneNumber(memberPhoneNumber)
+                .memberWarning(memberWarning)
+                .memberDamageCount(memberDamageCount)
                 .build();
     }
 

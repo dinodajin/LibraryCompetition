@@ -42,19 +42,33 @@ public class MemberService {
 
     @Transactional
     public List<MemberDTO> getMembersByMemberName(String memberName) {
+        List<Member> members = memberRepository.findByMemberName(memberName);
 
+        if (members.isEmpty()) {
+            throw new ListNotFoundElementException();
+        }
+
+        List<MemberDTO> memberDTOs = new ArrayList<>();
+        for (Member member : members) {
+            memberDTOs.add(MemberDTO.from(member));
+        }
+
+        return memberDTOs;
     }
 
     @Transactional
     public MemberDTO createMember(MemberDTO memberDTO) {
+        return MemberDTO.from(memberRepository.insert(memberDTO.toEntity()));
     }
 
     @Transactional
     public MemberDTO updateMember(MemberDTO memberDTO) {
+        return MemberDTO.from(memberRepository.insert(memberDTO.toEntity()));
     }
 
     @Transactional
-    public Void deleteMember(String memberId) {
+    public void deleteMember(String memberId) {
+        memberRepository.deleteById(memberId);
     }
 
 }

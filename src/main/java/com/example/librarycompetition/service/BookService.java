@@ -110,7 +110,7 @@ public class BookService {
 
     @Transactional
     public BookDTO updateBook(BookDTO bookDTO) {
-        return BookDTO.from(bookRepository.save(bookRepository.findByBookId(bookDTO.bookId()).orElseThrow(ResourceNotFoundException::new)));
+        return BookDTO.from(bookRepository.insert(bookDTO.toEntity()));
     }
 
     @Transactional
