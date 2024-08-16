@@ -49,17 +49,18 @@ public class ImageController {
 
     @PostMapping("")
     public ResponseEntity<ImageDTO> createImage(ImageDTO imageDTO) {
-        return new ResponseEntity<>(imageService.createImage(imageDTO), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.createImage(imageDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("")
     public ResponseEntity<ImageDTO> updateImage(ImageDTO imageDTO) {
-        return new ResponseEntity<>(imageService.updateImage(imageDTO), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.updateImage(imageDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("")
     public ResponseEntity<Void> deleteImage(String imageId) {
-        return new ResponseEntity<>(imageService.deleteImage(imageId), HttpStatus.OK);
+        imageService.deleteImage(imageId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

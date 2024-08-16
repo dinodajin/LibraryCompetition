@@ -16,7 +16,7 @@ public record LoanDTO(
         return new LoanDTO(loanId, loanTime, returnTime, memberId, bookId);
     }
 
-    public static LoanDTO fromLoan(Loan loan) {
+    public static LoanDTO from(Loan loan) {
         return new LoanDTO(
                 loan.getLoanId(),
                 loan.getLoanTime(),

@@ -44,22 +44,23 @@ public class LoanController {
 
     @GetMapping("")
     public ResponseEntity<List<LoanDTO>> getLoansByLoanTimeBetween(LocalDate startDate, LocalDate endDate) {
-        return new ResponseEntity<>(loanService.getLoansByLoanTimeBetween(startDate, endDate));
+        return new ResponseEntity<>(loanService.getLoansByLoanTimeBetween(startDate, endDate), HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<LoanDTO> createLoan(LoanDTO loanDTO) {
-        return new ResponseEntity<>(loanService.createLoan(loanDTO));
+        return new ResponseEntity<>(loanService.createLoan(loanDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("")
     public ResponseEntity<LoanDTO> updateLoan(LoanDTO loanDTO) {
-        return new ResponseEntity<>(loanService.updateLoan(loanDTO));
+        return new ResponseEntity<>(loanService.updateLoan(loanDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("")
     public ResponseEntity<Void> deleteLoan(String loanId) {
-        return new ResponseEntity<>(loanService.deleteLoan(loanId));
+        loanService.deleteLoan(loanId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

@@ -48,12 +48,12 @@ public class BookController {
 
     @PostMapping("")
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
-        return new ResponseEntity<>(bookService.createBook(bookDTO), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.createBook(bookDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("")
     public ResponseEntity<BookDTO> updateBook(@RequestBody BookDTO bookDTO) {
-        return new ResponseEntity<>(bookService.updateBook(bookDTO), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.updateBook(bookDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("")

@@ -33,12 +33,12 @@ public class MemberController {
 
     @PostMapping("")
     public ResponseEntity<MemberDTO> createMember(@RequestBody MemberDTO memberDTO) {
-        return new ResponseEntity<>(memberService.createMember(memberDTO), HttpStatus.OK);
+        return new ResponseEntity<>(memberService.createMember(memberDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("")
     public ResponseEntity<MemberDTO> updateMember(@RequestBody MemberDTO memberDTO) {
-        return new ResponseEntity<>(memberService.updateMember(memberDTO), HttpStatus.OK);
+        return new ResponseEntity<>(memberService.updateMember(memberDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("")
