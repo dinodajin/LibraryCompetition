@@ -1,4 +1,4 @@
 package com.example.librarycompetition.exception;
 
-public class ResourceNotFoundException extends Exception {
+public class ResourceNotFoundException extends RuntimeException {
 }
