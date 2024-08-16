@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDTO> resourceNotFoundExceptionHandler(ResourceNotFoundException rnfe) {
-
+        return new ResponseEntity<>(ErrorDTO.of("요소가 존재하지 않습니다."), HttpStatus.NOT_FOUND);
     }
 
 
