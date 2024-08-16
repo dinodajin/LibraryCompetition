@@ -63,7 +63,7 @@ public class MemberService {
 
     @Transactional
     public MemberDTO updateMember(MemberDTO memberDTO) {
-        return MemberDTO.from(memberRepository.insert(memberDTO.toEntity()));
+        return MemberDTO.from(memberRepository.save(memberDTO.toEntity()));
     }
 
     @Transactional

@@ -110,7 +110,7 @@ public class BookService {
 
     @Transactional
     public BookDTO updateBook(BookDTO bookDTO) {
-        return BookDTO.from(bookRepository.insert(bookDTO.toEntity()));
+        return BookDTO.from(bookRepository.save(bookDTO.toEntity()));
     }
 
     @Transactional
