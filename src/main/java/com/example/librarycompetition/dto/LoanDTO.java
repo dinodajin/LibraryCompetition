@@ -1,14 +1,20 @@
 package com.example.librarycompetition.dto;
 
 import com.example.librarycompetition.domain.Loan;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
 
 public record LoanDTO(
+        @Schema(example = "1")
         String loanId,
+        @Schema(example = "2024-08-21")
         LocalDate loanTime,
+        @Schema(example = "2024-08-21")
         LocalDate returnTime,
+        @Schema(example = "1")
         String memberId,
+        @Schema(example = "1")
         String bookId
 ) {
 

@@ -1,17 +1,21 @@
 package com.example.librarycompetition.dto;
 
 import com.example.librarycompetition.domain.Image;
-import lombok.Builder;
-import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
 
 
 public record ImageDTO(
+        @Schema(example = "1")
         String imageId,
+        @Schema(example = "https://image.com")
         String imageUrl,
+        @Schema(example = "2024-08-21")
         LocalDate imageDate,
+        @Schema(example = "1")
         Integer cameraId,
+        @Schema(example = "1")
         String bookId
 ) {
 
