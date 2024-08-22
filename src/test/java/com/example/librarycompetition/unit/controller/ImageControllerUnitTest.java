@@ -62,5 +62,82 @@ public class ImageControllerUnitTest {
             // given
             String imageId
         }
+
+        @Test
+        @DisplayName("getAllImage 테스트")
+        void testGetAllImage() throws Exception {
+            // given
+            List<ImageDTO> imageList = Collections.singletonList(imageDTO);
+            given(imageService.getAllImage()).willReturn(imageList);
+
+            // when & then
+            mockMvc.perform(get("/image/get/all")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].imageId").value(imageDTO.getImageId()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getImagesByBookId 테스트")
+        void testGetImagesByBookId() throws Exception {
+            // given
+            String bookId = "bookTest";
+            List<ImageDTO> imageList = Collections.singletonList(imageDTO);
+            given(imageService.getImagesByBookId(bookId)).willReturn(imageList);
+
+            // when & then
+            mockMvc.perform(get("/image/get/bookId/" + bookId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookId").value(bookId))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getImagesByCameraId 테스트")
+        void testGetImagesByCameraId() throws Exception {
+            // given
+            Integer cameraId = 123;
+            List<ImageDTO> imageList = Collections.singletonList(imageDTO);
+            given(imageService.getImagesByCameraId(cameraId)).willReturn(imageList);
+
+            // when & then
+            mockMvc.perform(get("/image/get/cameraId/" + cameraId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].cameraId").value(cameraId))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getImagesByImageTimeGreaterThan 테스트")
+        void testGetImagesByImageTimeGreaterThan() throws Exception {
+            // given
+            LocalDate startDate = LocalDate.of(2023, 1, 1);
+            List<ImageDTO> imageList = Collections.singletonList(imageDTO);
+            given(imageService.getImagesByImageTimeGreaterThan(startDate)).willReturn(imageList);
+
+            // when & then
+            mockMvc.perform(get("/image/get/startDate/" + startDate)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].imageTime").value(imageDTO.getImageTime().toString()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getImagesByImageTimeBetween 테스트")
+        void testGetImagesByImageTimeBetween() throws Exception {
+            // given
+            LocalDate startDate = LocalDate.of(2023, 1, 1);
+            LocalDate endDate = LocalDate.of(2023, 12, 31);
+            List<ImageDTO> imageList = Collections.singletonList(imageDTO);
+            given(imageService.getImagesByImageTimeBetween(startDate, endDate)).willReturn(imageList);
+
+            // when & then
+            mockMvc.perform(get("/image/get/imageTime")
+                            .param("startDate", startDate.toString())
+                            .param("endDate", endDate.toString())
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].imageTime").value(imageDTO.getImageTime().toString()))
+                    .andExpect(status().isOk());
+        }
     }
 }
