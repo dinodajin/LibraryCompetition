@@ -42,4 +42,64 @@ public class ImageRepositoryUnitTest {
 
         imageRepository.save(image);
     }
+
+    @Nested
+    @DisplayName("READ 테스트")
+    class Test_READ {
+
+        @Test
+        @DisplayName("findByImageId 테스트")
+        void testFindByImageId() {
+            // when
+            Optional<Image> result = imageRepository.findByImageId(image.getImageId());
+
+            // then
+            assertTrue(result.isPresent());
+            assertEquals(image.getImageId(), result.get().getImageId());
+        }
+
+        @Test
+        @DisplayName("findImagesByBookId 테스트")
+        void testFindImagesByBookId() {
+            // when
+            List<Image> result = imageRepository.findImagesByBookId(image.getBookId());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(image.getBookId(), result.get(0).getBookId());
+        }
+
+        @Test
+        @DisplayName("findImagesByCameraId 테스트")
+        void testFindImagesByCameraId() {
+            // when
+            List<Image> result = imageRepository.findImagesByCameraId(image.getCameraId());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(image.getCameraId(), result.get(0).getCameraId());
+        }
+
+        @Test
+        @DisplayName("findImagesByImageTimeGreaterThan 테스트")
+        void testFindImagesByImageTimeGreaterThan() {
+            // when
+            List<Image> result = imageRepository.findImagesByImageTimeGreaterThan(LocalDate.of(2024, 8, 20));
+
+            // then
+            assertFalse(result.isEmpty());
+            assertTrue(result.stream().allMatch(img -> img.getImageTime().isAfter(LocalDate.of(2024, 8, 20))));
+        }
+
+        @Test
+        @DisplayName("findImagesByImageTimeBetween 테스트")
+        void testFindImagesByImageTimeBetween() {
+            // when
+            List<Image> result = imageRepository.findImagesByImageTimeBetween(LocalDate.of(2024, 8, 20), LocalDate.of(2024, 8, 22));
+
+            // then
+            assertFalse(result.isEmpty());
+            assertTrue(result.stream().allMatch(img -> !img.getImageTime().isBefore(LocalDate.of(2024, 8, 20)) && !img.getImageTime().isAfter(LocalDate.of(2024, 8, 22))));
+        }
+    }
 }
