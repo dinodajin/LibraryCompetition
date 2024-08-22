@@ -34,11 +34,11 @@ public class BookRepositoryUnitTest {
         mongoTemplate.dropCollection(Book.class);
 
         book = new Book();
-        book.setBookId("testBookId");
-        book.setBookTitle("Test Title");
-        book.setBookAuthor("Test Author");
-        book.setBookDamage(0);
-        book.setBookLabel("Test Label");
+        book.setBookId("1");
+        book.setBookTitle("가나다");
+        book.setBookAuthor("가나다");
+        book.setBookDamage(30);
+        book.setBookLabel("가나다");
 
         bookRepository.save(book);
     }

@@ -35,11 +35,11 @@ public class ImageRepositoryUnitTest {
         mongoTemplate.dropCollection(Image.class);
 
         image = new Image();
-        image.setImageId("testImageId");
-        image.setBookId("testBookId");
-        image.setCameraId(123);
+        image.setImageId("1");
+        image.setImageUrl("https://image.com");
         image.setImageTime(LocalDate.of(2024, 8, 21));
-
+        image.setCameraId(1);
+        image.setBookId("1");
         imageRepository.save(image);
     }
 

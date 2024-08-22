@@ -33,12 +33,11 @@ public class LoanRepositoryUnitTest {
         mongoTemplate.dropCollection(Loan.class);
 
         loan = new Loan();
-        loan.setLoanId("testLoanId");
-        loan.setMemberId("testMemberId");
-        loan.setBookId("testBookId");
+        loan.setLoanId("1");
         loan.setLoanTime(LocalDate.of(2024, 8, 21));
-        loan.setReturnTime(null); // Set to null to test active loans
-
+        loan.setReturnTime(LocalDate.of(2024, 8, 21));
+        loan.setMemberId("1");
+        loan.setBookId("1");
         loanRepository.save(loan);
     }
 

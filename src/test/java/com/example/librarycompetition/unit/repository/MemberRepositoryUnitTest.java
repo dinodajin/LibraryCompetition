@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +33,12 @@ public class MemberRepositoryUnitTest {
         mongoTemplate.dropCollection(Member.class);
 
         member = new Member();
-        member.setMemberId("testMemberId");
-        member.setMemberName("John Doe");
+        member.setMemberId("1");
+        member.setMemberName("가나다");
+        member.setMemberBirth(LocalDate.of(2024, 8, 21));
+        member.setMemberPhoneNumber("010-1111-2222");
+        member.setMemberWarning("정상");
+        member.setMemberDamageCount(1);
 
         memberRepository.save(member);
     }
