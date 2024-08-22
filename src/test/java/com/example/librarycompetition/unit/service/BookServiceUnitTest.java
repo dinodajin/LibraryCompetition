@@ -210,4 +210,23 @@ public class BookServiceUnitTest {
             assertEquals(bookDTO.getBookId(), result.getBookId());
         }
     }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateBook 테스트")
+        void testUpdateBook() {
+            // given
+            given(bookRepository.save(book)).willReturn(book);
+
+            // when
+            BookDTO result = bookService.updateBook(bookDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(bookDTO.getBookId(), result.getBookId());
+        }
+    }
 }
