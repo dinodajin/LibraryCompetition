@@ -43,4 +43,73 @@ public class MemberServiceUnitTest {
         memberDTO = MemberDTO.of(memberId, memberName);
         member = memberDTO.toEntity();
     }
+
+    @Nested
+    @DisplayName("GET 테스트")
+    class Test_GET {
+
+        @Test
+        @DisplayName("getOneMember 테스트")
+        void testGetOneMember() {
+            // given
+            given(memberRepository.findByMemberId(memberDTO.getMemberId())).willReturn(Optional.of(member));
+
+            // when
+            MemberDTO result = memberService.getOneMember(memberDTO.getMemberId());
+
+            // then
+            assertNotNull(result);
+            assertEquals(memberDTO.getMemberId(), result.getMemberId());
+        }
+
+        @Test
+        @DisplayName("getAllMember 테스트")
+        void testGetAllMember() {
+            // given
+            List<Member> members = Collections.singletonList(member);
+            given(memberRepository.findAll()).willReturn(members);
+
+            // when
+            List<MemberDTO> result = memberService.getAllMember();
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(memberDTO.getMemberId(), result.get(0).getMemberId());
+        }
+
+        @Test
+        @DisplayName("getMembersByMemberName 테스트")
+        void testGetMembersByMemberName() {
+            // given
+            List<Member> members = Collections.singletonList(member);
+            given(memberRepository.findByMemberName(memberDTO.getMemberName())).willReturn(members);
+
+            // when
+            List<MemberDTO> result = memberService.getMembersByMemberName(memberDTO.getMemberName());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(memberDTO.getMemberName(), result.get(0).getMemberName());
+        }
+
+        @Test
+        @DisplayName("getAllMember - ListNotFoundElementException 테스트")
+        void testGetAllMember_ThrowsListNotFoundElementException() {
+            // given
+            given(memberRepository.findAll()).willReturn(new ArrayList<>());
+
+            // when & then
+            assertThrows(ListNotFoundElementException.class, () -> memberService.getAllMember());
+        }
+
+        @Test
+        @DisplayName("getMembersByMemberName - ListNotFoundElementException 테스트")
+        void testGetMembersByMemberName_ThrowsListNotFoundElementException() {
+            // given
+            given(memberRepository.findByMemberName(memberDTO.getMemberName())).willReturn(new ArrayList<>());
+
+            // when & then
+            assertThrows(ListNotFoundElementException.class, () -> memberService.getMembersByMemberName(memberDTO.getMemberName()));
+        }
+    }
 }
