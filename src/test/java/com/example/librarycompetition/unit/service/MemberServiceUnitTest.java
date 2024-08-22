@@ -131,4 +131,23 @@ public class MemberServiceUnitTest {
             assertEquals(memberDTO.getMemberId(), result.getMemberId());
         }
     }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateMember 테스트")
+        void testUpdateMember() {
+            // given
+            given(memberRepository.save(member)).willReturn(member);
+
+            // when
+            MemberDTO result = memberService.updateMember(memberDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(memberDTO.getMemberId(), result.getMemberId());
+        }
+    }
 }
