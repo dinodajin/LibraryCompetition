@@ -140,4 +140,23 @@ public class ImageControllerUnitTest {
                     .andExpect(status().isOk());
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createImage 테스트")
+        void testCreateImage() throws Exception {
+            // given
+            given(imageService.createImage(imageDTO)).willReturn(imageDTO);
+
+            // when & then
+            mockMvc.perform(post("/image/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"imageId\": \"test\", \"bookId\": \"bookTest\", \"cameraId\": 123, \"imageTime\": \"2023-08-21\"}"))
+                    .andExpect(jsonPath("$.imageId").value(imageDTO.getImageId()))
+                    .andExpect(status().isCreated());
+        }
+    }
 }
