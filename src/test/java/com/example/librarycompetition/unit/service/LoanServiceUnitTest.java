@@ -192,4 +192,23 @@ public class LoanServiceUnitTest {
             assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByLoanTimeBetween(loanDTO.getLoanTime(), endDate));
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createLoan 테스트")
+        void testCreateLoan() {
+            // given
+            given(loanRepository.insert(loan)).willReturn(loan);
+
+            // when
+            LoanDTO result = loanService.createLoan(loanDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(loanDTO.getLoanId(), result.getLoanId());
+        }
+    }
 }
