@@ -1,9 +1,13 @@
 package com.example.librarycompetition.controller;
 
 import com.example.librarycompetition.dto.BookDTO;
+import com.example.librarycompetition.exception.ErrorDTO;
 import com.example.librarycompetition.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,8 +30,8 @@ public class BookController {
 
     @Operation(summary = "Get Book", description = "책 인덱스로 책 한권 검색하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 검색 성공"),
-            @ApiResponse(responseCode = "404", description = "책이 존재하지 않습니다."),
+            @ApiResponse(responseCode = "200", description = "책 검색 성공", content = @Content(schema = @Schema(implementation = BookDTO.class))),
+            @ApiResponse(responseCode = "404", description = "책이 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/{bookId}")
     public ResponseEntity<BookDTO> getOneBook(@Parameter(description = "책 인덱스")
@@ -38,8 +42,8 @@ public class BookController {
 
     @Operation(summary = "Get All Books", description = "모든 책 정보 검색하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공"),
-            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다."),
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/all")
     public ResponseEntity<List<BookDTO>> getAllBook() {
@@ -49,8 +53,8 @@ public class BookController {
 
     @Operation(summary = "Get Books", description = "책 이름으로 책 리스트 검색하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공"),
-            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다."),
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/bookTitle/{bookTitle}")
     public ResponseEntity<List<BookDTO>> getBooksByBookTitle(@Parameter(description = "잭 제목")
@@ -61,8 +65,8 @@ public class BookController {
 
     @Operation(summary = "Get Books", description = "책 저자로 책 리스트 검색하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공"),
-            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다."),
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/bookAuthor/{bookAuthor}")
     public ResponseEntity<List<BookDTO>> getBooksByBookAuthor(@Parameter(description = "책 저자")
@@ -73,8 +77,8 @@ public class BookController {
 
     @Operation(summary = "Get Books", description = "책 손상도로 책 리스트 검색하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공"),
-            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다."),
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/bookDamage/{bookDamage}")
     public ResponseEntity<List<BookDTO>> getBooksByBookDamage(@Parameter(description = "책 손상도")
@@ -85,8 +89,8 @@ public class BookController {
 
     @Operation(summary = "Get Books", description = "책 라벨로 책 리스트 검색하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공"),
-            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다."),
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/bookLabel/{bookLabel}")
     public ResponseEntity<List<BookDTO>> getBooksByBookLabel(@Parameter(description = "책 라벨")
@@ -97,8 +101,8 @@ public class BookController {
 
     @Operation(summary = "Create Book", description = "책 정보로 책 생성하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "책 생성 성공"),
-            @ApiResponse(responseCode = "400", description = "책을 생성할 수 없습니다."),
+            @ApiResponse(responseCode = "201", description = "책 생성 성공", content = @Content(schema = @Schema(implementation = BookDTO.class))),
+            @ApiResponse(responseCode = "400", description = "책을 생성할 수 없습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @PostMapping("/create")
     public ResponseEntity<BookDTO> createBook(@Parameter(description = "생성할 책 정보를 담은 책 DTO")
@@ -109,8 +113,8 @@ public class BookController {
 
     @Operation(summary = "Update Book", description = "책 정보로 책 업데이트하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "책 업데이트 성공"),
-            @ApiResponse(responseCode = "400", description = "책을 업데이트할 수 없습니다."),
+            @ApiResponse(responseCode = "202", description = "책 업데이트 성공", content = @Content(schema = @Schema(implementation = BookDTO.class))),
+            @ApiResponse(responseCode = "400", description = "책을 업데이트할 수 없습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @PutMapping("/update")
     public ResponseEntity<BookDTO> updateBook(@Parameter(description = "수정할 책 정보를 담은 책 DTO")
@@ -122,7 +126,7 @@ public class BookController {
     @Operation(summary = "Delete Book", description = "책 인덱스로 책 한권 삭제하기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "책 삭제 성공"),
-            @ApiResponse(responseCode = "400", description = "책을 삭제할 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "책을 삭제할 수 없습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @DeleteMapping("/delete/{bookId}")
     public ResponseEntity<Void> deleteBook(@Parameter(description = "책 인덱스") @PathVariable String bookId) {
