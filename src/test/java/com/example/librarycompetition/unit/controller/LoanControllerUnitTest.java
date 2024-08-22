@@ -147,4 +147,23 @@ public class LoanControllerUnitTest {
                     .andExpect(status().isOk());
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createLoan 테스트")
+        void testCreateLoan() throws Exception {
+            // given
+            given(loanService.createLoan(loanDTO)).willReturn(loanDTO);
+
+            // when & then
+            mockMvc.perform(post("/loan/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"loanId\": \"loanTest\", \"memberId\": \"memberTest\", \"bookId\": \"bookTest\", \"loanTime\": \"2023-08-21\", \"returnTime\": null}"))
+                    .andExpect(jsonPath("$.loanId").value(loanDTO.getLoanId()))
+                    .andExpect(status().isCreated());
+        }
+    }
 }
