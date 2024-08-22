@@ -64,4 +64,20 @@ public class MemberRepositoryUnitTest {
             assertEquals(member.getMemberName(), result.get(0).getMemberName());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteById 테스트")
+        void testDeleteById() {
+            // when
+            memberRepository.deleteById(member.getMemberId());
+
+            // then
+            Optional<Member> result = memberRepository.findByMemberId(member.getMemberId());
+            assertFalse(result.isPresent());
+        }
+    }
 }
