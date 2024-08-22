@@ -134,4 +134,24 @@ public class MemberControllerUnitTest {
                     .andExpect(status().isAccepted());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteMember 테스트")
+        void testDeleteMember() throws Exception {
+            // given
+            String memberId = "memberTest";
+            doNothing().when(memberService).deleteMember(memberId);
+
+            // when & then
+            mockMvc.perform(delete("/member/delete/" + memberId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+
+            then(memberService).should().deleteMember(memberId);
+        }
+    }
 }
