@@ -29,27 +29,27 @@ public class BookControllerUnitTest {
     @MockBean
     private BookService bookService;
 
+    private BookDTO bookDTO;
+
+    @BeforeEach
+    @DisplayName("스텁 설정")
+    void setUp() {
+        String bookId = "test";
+        Integer bookSequence = 1;
+        String bookTitle = "test";
+        String bookAuthor = "test";
+        Integer bookDamage = 10;
+        String bookLabel = "test";
+
+        bookDTO = BookDTO.of(bookId, bookSequence, bookTitle, bookAuthor, bookDamage, bookLabel);
+    }
+
     @Nested
     @DisplayName("GET 테스트")
     class Test_GET {
 
-        private BookDTO bookDTO;
-
-        @BeforeEach
-        @DisplayName("스텁 설정")
-        void setUp() {
-            String bookId = "test";
-            Integer bookSequence = 1;
-            String bookTitle = "test";
-            String bookAuthor = "test";
-            Integer bookDamage = 10;
-            String bookLabel = "test";
-
-            bookDTO = BookDTO.of(bookId, bookSequence, bookTitle, bookAuthor, bookDamage, bookLabel);
-        }
-
         @Test
-        @DisplayName("getByOne 테스트")
+        @DisplayName("getByOneBook 테스트")
         void testGetOneBook() throws Exception {
             // given
             String bookId = "test";
@@ -62,6 +62,136 @@ public class BookControllerUnitTest {
                     .andExpect(status().isOk());
         }
 
+        @Test
+        @DisplayName("getAllBook 테스트")
+        void testGetAllBook() throws Exception {
+            // given
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getAllBook()).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/all")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookId").value(bookDTO.getBookId()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookTitle 테스트")
+        void testGetBooksByBookTitle() throws Exception {
+            // given
+            String bookTitle = "test";
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookTitle(bookTitle)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookTitle/" + bookTitle)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookTitle").value(bookTitle))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookAuthor 테스트")
+        void testGetBooksByBookAuthor() throws Exception {
+            // given
+            String bookAuthor = "test";
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookAuthor(bookAuthor)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookAuthor/" + bookAuthor)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookAuthor").value(bookAuthor))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookDamage 테스트")
+        void testGetBooksByBookDamage() throws Exception {
+            // given
+            Integer bookDamage = 10;
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookDamage(bookDamage)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookDamage/" + bookDamage)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookDamage").value(bookDamage))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookLabel 테스트")
+        void testGetBooksByBookLabel() throws Exception {
+            // given
+            String bookLabel = "test";
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookLabel(bookLabel)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookLabel/" + bookLabel)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookLabel").value(bookLabel))
+                    .andExpect(status().isOk());
+        }
     }
 
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createBook 테스트")
+        void testCreateBook() throws Exception {
+            // given
+            given(bookService.createBook(bookDTO)).willReturn(bookDTO);
+
+            // when & then
+            mockMvc.perform(post("/book/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"bookId\": \"test\", \"bookSequence\": 1, \"bookTitle\": \"test\", \"bookAuthor\": \"test\", \"bookDamage\": 10, \"bookLabel\": \"test\"}"))
+                    .andExpect(jsonPath("$.bookId").value(bookDTO.getBookId()))
+                    .andExpect(status().isCreated());
+        }
+    }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateBook 테스트")
+        void testUpdateBook() throws Exception {
+            // given
+            given(bookService.updateBook(bookDTO)).willReturn(bookDTO);
+
+            // when & then
+            mockMvc.perform(put("/book/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"bookId\": \"test\", \"bookSequence\": 1, \"bookTitle\": \"test\", \"bookAuthor\": \"test\", \"bookDamage\": 10, \"bookLabel\": \"test\"}"))
+                    .andExpect(jsonPath("$.bookId").value(bookDTO.getBookId()))
+                    .andExpect(status().isAccepted());
+        }
+    }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteBook 테스트")
+        void testDeleteBook() throws Exception {
+            // given
+            String bookId = "test";
+            doNothing().when(bookService).deleteBook(bookId);
+
+            // when & then
+            mockMvc.perform(delete("/book/delete/" + bookId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+
+            then(bookService).should().deleteBook(bookId);
+        }
+    }
 }
