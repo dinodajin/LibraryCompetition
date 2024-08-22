@@ -229,4 +229,22 @@ public class BookServiceUnitTest {
             assertEquals(bookDTO.getBookId(), result.getBookId());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteBook 테스트")
+        void testDeleteBook() {
+            // given
+            willDoNothing().given(bookRepository).deleteByBookId(bookDTO.getBookId());
+
+            // when
+            bookService.deleteBook(bookDTO.getBookId());
+
+            // then
+            verify(bookRepository, times(1)).deleteByBookId(bookDTO.getBookId());
+        }
+    }
 }
