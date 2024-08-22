@@ -43,7 +43,7 @@ public class ImageControllerUnitTest {
     @BeforeEach
     @DisplayName("스텁 설정")
     void setUp() {
-        // 테스트에 사용할 ImageDTO 객체를 초기화합니다.
+        // 테스트에 사용할 ImageDTO 객체를 초기화
         String imageId = "test";
         String bookId = "bookTest";
         Integer cameraId = 123;
