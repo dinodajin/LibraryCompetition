@@ -98,7 +98,7 @@ public class LoanController {
     @Operation(summary = "Create Loan", description = "대출 정보로 대출 생성하기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "대출 생성 성공"),
-            @ApiResponse(responseCode = "404", description = "대츨을 생성할 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "대츨을 생성할 수 없습니다."),
     })
     @PostMapping("/create")
     public ResponseEntity<LoanDTO> createLoan(@Parameter(description = "생성할 대출 정보를 담은 대출 DTO")
@@ -110,7 +110,7 @@ public class LoanController {
     @Operation(summary = "Update Loan", description = "대출 정보로 대출 수정하기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "대출 수정 성공"),
-            @ApiResponse(responseCode = "404", description = "대츨을 수정할 수 없습니다."),
+            @ApiResponse(responseCode = "400", description = "대츨을 수정할 수 없습니다."),
     })
     @PutMapping("/update")
     public ResponseEntity<LoanDTO> updateLoan(@Parameter(description = "수정할 대출 정보를 담은 대출 DTO")
