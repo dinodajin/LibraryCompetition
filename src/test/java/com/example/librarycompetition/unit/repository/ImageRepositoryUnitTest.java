@@ -102,4 +102,20 @@ public class ImageRepositoryUnitTest {
             assertTrue(result.stream().allMatch(img -> !img.getImageTime().isBefore(LocalDate.of(2024, 8, 20)) && !img.getImageTime().isAfter(LocalDate.of(2024, 8, 22))));
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteById 테스트")
+        void testDeleteById() {
+            // when
+            imageRepository.deleteById(image.getImageId());
+
+            // then
+            Optional<Image> result = imageRepository.findByImageId(image.getImageId());
+            assertFalse(result.isPresent());
+        }
+    }
 }
