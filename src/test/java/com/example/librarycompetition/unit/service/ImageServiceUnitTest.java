@@ -192,4 +192,23 @@ public class ImageServiceUnitTest {
             assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByImageTimeBetween(imageDTO.getImageTime(), endDate));
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createImage 테스트")
+        void testCreateImage() {
+            // given
+            given(imageRepository.insert(image)).willReturn(image);
+
+            // when
+            ImageDTO result = imageService.createImage(imageDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(imageDTO.getImageId(), result.getImageId());
+        }
+    }
 }
