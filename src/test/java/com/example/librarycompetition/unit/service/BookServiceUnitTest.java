@@ -191,4 +191,23 @@ public class BookServiceUnitTest {
             assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookLabel(bookDTO.getBookLabel()));
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createBook 테스트")
+        void testCreateBook() {
+            // given
+            given(bookRepository.insert(book)).willReturn(book);
+
+            // when
+            BookDTO result = bookService.createBook(bookDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(bookDTO.getBookId(), result.getBookId());
+        }
+    }
 }
