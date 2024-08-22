@@ -230,4 +230,22 @@ public class LoanServiceUnitTest {
             assertEquals(loanDTO.getLoanId(), result.getLoanId());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteLoan 테스트")
+        void testDeleteLoan() {
+            // given
+            willDoNothing().given(loanRepository).deleteByLoanId(loanDTO.getLoanId());
+
+            // when
+            loanService.deleteLoan(loanDTO.getLoanId());
+
+            // then
+            verify(loanRepository, times(1)).deleteByLoanId(loanDTO.getLoanId());
+        }
+    }
 }
