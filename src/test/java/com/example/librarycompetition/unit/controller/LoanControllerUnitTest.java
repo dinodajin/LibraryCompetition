@@ -52,4 +52,99 @@ public class LoanControllerUnitTest {
 
         loanDTO = LoanDTO.of(loanId, memberId, bookId, loanTime, returnTime);
     }
+
+    @Nested
+    @DisplayName("GET 테스트")
+    class Test_GET {
+
+        @Test
+        @DisplayName("getOneLoan 테스트")
+        void testGetOneLoan() throws Exception {
+            // given
+            String loanId = "loanTest";
+            given(loanService.getOneLoan(loanId)).willReturn(loanDTO);
+
+            // when & then
+            mockMvc.perform(get("/loan/get/" + loanId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.loanId").value(loanId))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getAllLoan 테스트")
+        void testGetAllLoan() throws Exception {
+            // given
+            List<LoanDTO> loanList = Collections.singletonList(loanDTO);
+            given(loanService.getAllLoan()).willReturn(loanList);
+
+            // when & then
+            mockMvc.perform(get("/loan/get/all")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.getLoanId()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getLoansByMemberId 테스트")
+        void testGetLoansByMemberId() throws Exception {
+            // given
+            String memberId = "memberTest";
+            List<LoanDTO> loanList = Collections.singletonList(loanDTO);
+            given(loanService.getLoansByMemberId(memberId)).willReturn(loanList);
+
+            // when & then
+            mockMvc.perform(get("/loan/get/memberId/" + memberId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].memberId").value(memberId))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getLoansByBookId 테스트")
+        void testGetLoansByBookId() throws Exception {
+            // given
+            String bookId = "bookTest";
+            List<LoanDTO> loanList = Collections.singletonList(loanDTO);
+            given(loanService.getLoansByBookId(bookId)).willReturn(loanList);
+
+            // when & then
+            mockMvc.perform(get("/loan/get/bookId/" + bookId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookId").value(bookId))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getLoansByLoanTimeIsNotNullAndReturnTimeIsNull 테스트")
+        void testGetLoansByLoanTimeIsNotNullAndReturnTimeIsNull() throws Exception {
+            // given
+            List<LoanDTO> loanList = Collections.singletonList(loanDTO);
+            given(loanService.getLoansByLoanTimeIsNotNullAndReturnTimeIsNull()).willReturn(loanList);
+
+            // when & then
+            mockMvc.perform(get("/loan/get/currentLoan")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.getLoanId()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getLoansByLoanTimeBetween 테스트")
+        void testGetLoansByLoanTimeBetween() throws Exception {
+            // given
+            LocalDate startDate = LocalDate.of(2023, 1, 1);
+            LocalDate endDate = LocalDate.of(2023, 12, 31);
+            List<LoanDTO> loanList = Collections.singletonList(loanDTO);
+            given(loanService.getLoansByLoanTimeBetween(startDate, endDate)).willReturn(loanList);
+
+            // when & then
+            mockMvc.perform(get("/loan/get/loanTime")
+                            .param("startDate", startDate.toString())
+                            .param("endDate", endDate.toString())
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.getLoanId()))
+                    .andExpect(status().isOk());
+        }
+    }
 }
