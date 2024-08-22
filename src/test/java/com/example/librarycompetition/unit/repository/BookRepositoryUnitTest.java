@@ -102,4 +102,20 @@ public class BookRepositoryUnitTest {
             assertEquals(book.getBookLabel(), result.get(0).getBookLabel());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteByBookId 테스트")
+        void testDeleteByBookId() {
+            // when
+            bookRepository.deleteByBookId(book.getBookId());
+
+            // then
+            Optional<Book> result = bookRepository.findByBookId(book.getBookId());
+            assertFalse(result.isPresent());
+        }
+    }
 }
