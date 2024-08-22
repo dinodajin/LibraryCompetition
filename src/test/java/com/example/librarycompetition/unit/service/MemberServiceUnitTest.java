@@ -112,4 +112,23 @@ public class MemberServiceUnitTest {
             assertThrows(ListNotFoundElementException.class, () -> memberService.getMembersByMemberName(memberDTO.getMemberName()));
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createMember 테스트")
+        void testCreateMember() {
+            // given
+            given(memberRepository.insert(member)).willReturn(member);
+
+            // when
+            MemberDTO result = memberService.createMember(memberDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(memberDTO.getMemberId(), result.getMemberId());
+        }
+    }
 }
