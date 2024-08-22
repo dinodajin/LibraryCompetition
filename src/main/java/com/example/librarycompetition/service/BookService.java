@@ -4,8 +4,10 @@ import com.example.librarycompetition.domain.Book;
 import com.example.librarycompetition.dto.BookDTO;
 import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
+import com.example.librarycompetition.repository.BookCustomRepositoryImpl;
 import com.example.librarycompetition.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private BookCustomRepositoryImpl bookCustomRepository;
 
     @Transactional
     public BookDTO getOneBook(String bookId) {
@@ -41,7 +44,7 @@ public class BookService {
 
     @Transactional
     public List<BookDTO> getBooksByBookTitle(String bookTitle) {
-        List<Book> books = bookRepository.findBooksByBookTitle(bookTitle);
+        List<Book> books = bookRepository.findBooksByBookTitleContaining(bookTitle);
 
         if(books.isEmpty()) {
             throw new ListNotFoundElementException();
@@ -57,7 +60,7 @@ public class BookService {
 
     @Transactional
     public List<BookDTO> getBooksByBookAuthor(String bookAuthor) {
-        List<Book> books = bookRepository.findBooksByBookAuthor(bookAuthor);
+        List<Book> books = bookRepository.findBooksByBookAuthorContaining(bookAuthor);
 
         if(books.isEmpty()) {
             throw new ListNotFoundElementException();
@@ -101,6 +104,11 @@ public class BookService {
         }
 
         return bookDTOs;
+    }
+
+    @Transactional
+    public List<BookDTO> getBooksByCondition(String bookTitle, String bookAuthor, Integer bookDamage) {
+        return bookCustomRepository.findBooksByDynamicQuery(bookTitle, bookAuthor, bookDamage);
     }
 
     @Transactional

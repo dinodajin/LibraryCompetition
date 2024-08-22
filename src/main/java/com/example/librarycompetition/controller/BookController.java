@@ -99,6 +99,22 @@ public class BookController {
         return new ResponseEntity<>(bookService.getBooksByBookLabel(bookLabel), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get Books", description = "책 조건으로 책 리스트 검색하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+    })
+    @GetMapping("/get/condition")
+    public ResponseEntity<List<BookDTO>> getBooksByCondition(@Parameter(description = "책 제목")
+                                                                 @RequestParam String bookTitle,
+                                                             @Parameter(description = "책 저자")
+                                                                 @RequestParam String bookAuthor,
+                                                             @Parameter(description = "책 손상도")
+                                                                 @RequestParam Integer bookDamage) {
+        log.info("getBooksByCondition : bookTitle = {}, bookAuthor = {}, bookDamage = {}", bookTitle, bookAuthor, bookDamage);
+        return new ResponseEntity<>(bookService.getBooksByCondition(bookTitle, bookAuthor, bookDamage), HttpStatus.OK);
+    }
+
     @Operation(summary = "Create Book", description = "책 정보로 책 생성하기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "책 생성 성공", content = @Content(schema = @Schema(implementation = BookDTO.class))),

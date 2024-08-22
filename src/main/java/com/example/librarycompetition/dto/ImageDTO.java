@@ -12,15 +12,15 @@ public record ImageDTO(
         @Schema(example = "https://image.com")
         String imageUrl,
         @Schema(example = "2024-08-21")
-        LocalDate imageDate,
+        LocalDate imageTime,
         @Schema(example = "1")
         Integer cameraId,
         @Schema(example = "1")
         String bookId
 ) {
 
-    public static ImageDTO of(String imageId, String imageUrl, LocalDate imageDate, Integer cameraId, String bookId) {
-        return new ImageDTO(imageId, imageUrl, imageDate,  cameraId, bookId);
+    public static ImageDTO of(String imageId, String imageUrl, LocalDate imageTime, Integer cameraId, String bookId) {
+        return new ImageDTO(imageId, imageUrl, imageTime,  cameraId, bookId);
     }
 
     public static ImageDTO from(Image image) {
@@ -37,7 +37,7 @@ public record ImageDTO(
         return Image.builder()
                 .imageId(imageId)
                 .imageUrl(imageUrl)
-                .imageTime(imageDate)
+                .imageTime(imageTime)
                 .cameraId(cameraId)
                 .bookId(bookId)
                 .build();
