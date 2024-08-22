@@ -42,4 +42,64 @@ public class BookRepositoryUnitTest {
 
         bookRepository.save(book);
     }
+
+    @Nested
+    @DisplayName("READ 테스트")
+    class Test_READ {
+
+        @Test
+        @DisplayName("findByBookId 테스트")
+        void testFindByBookId() {
+            // when
+            Optional<Book> result = bookRepository.findByBookId(book.getBookId());
+
+            // then
+            assertTrue(result.isPresent());
+            assertEquals(book.getBookId(), result.get().getBookId());
+        }
+
+        @Test
+        @DisplayName("findBooksByBookTitle 테스트")
+        void testFindBooksByBookTitle() {
+            // when
+            List<Book> result = bookRepository.findBooksByBookTitle(book.getBookTitle());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(book.getBookTitle(), result.get(0).getBookTitle());
+        }
+
+        @Test
+        @DisplayName("findBooksByBookAuthor 테스트")
+        void testFindBooksByBookAuthor() {
+            // when
+            List<Book> result = bookRepository.findBooksByBookAuthor(book.getBookAuthor());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(book.getBookAuthor(), result.get(0).getBookAuthor());
+        }
+
+        @Test
+        @DisplayName("findBooksByBookDamage 테스트")
+        void testFindBooksByBookDamage() {
+            // when
+            List<Book> result = bookRepository.findBooksByBookDamage(book.getBookDamage());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(book.getBookDamage(), result.get(0).getBookDamage());
+        }
+
+        @Test
+        @DisplayName("findBooksByBookLabel 테스트")
+        void testFindBooksByBookLabel() {
+            // when
+            List<Book> result = bookRepository.findBooksByBookLabel(book.getBookLabel());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(book.getBookLabel(), result.get(0).getBookLabel());
+        }
+    }
 }
