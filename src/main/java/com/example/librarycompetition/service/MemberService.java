@@ -42,7 +42,7 @@ public class MemberService {
 
     @Transactional
     public List<MemberDTO> getMembersByMemberName(String memberName) {
-        List<Member> members = memberRepository.findByMemberName(memberName);
+        List<Member> members = memberRepository.findByMemberNameContaining(memberName);
 
         if (members.isEmpty()) {
             throw new ListNotFoundElementException();

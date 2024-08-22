@@ -14,6 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -72,7 +75,7 @@ public class BookControllerUnitTest {
             // when & then
             mockMvc.perform(get("/book/get/all")
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].bookId").value(bookDTO.getBookId()))
+                    .andExpect(jsonPath("$[0].bookId").value(bookDTO.bookId()))
                     .andExpect(status().isOk());
         }
 
