@@ -49,7 +49,7 @@ public class BookControllerUnitTest {
     class Test_GET {
 
         @Test
-        @DisplayName("getByOne 테스트")
+        @DisplayName("getByOneBook 테스트")
         void testGetOneBook() throws Exception {
             // given
             String bookId = "test";
@@ -62,6 +62,78 @@ public class BookControllerUnitTest {
                     .andExpect(status().isOk());
         }
 
-    }
+        @Test
+        @DisplayName("getAllBook 테스트")
+        void testGetAllBook() throws Exception {
+            // given
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getAllBook()).willReturn(bookList);
 
+            // when & then
+            mockMvc.perform(get("/book/get/all")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookId").value(bookDTO.getBookId()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookTitle 테스트")
+        void testGetBooksByBookTitle() throws Exception {
+            // given
+            String bookTitle = "test";
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookTitle(bookTitle)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookTitle/" + bookTitle)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookTitle").value(bookTitle))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookAuthor 테스트")
+        void testGetBooksByBookAuthor() throws Exception {
+            // given
+            String bookAuthor = "test";
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookAuthor(bookAuthor)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookAuthor/" + bookAuthor)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookAuthor").value(bookAuthor))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookDamage 테스트")
+        void testGetBooksByBookDamage() throws Exception {
+            // given
+            Integer bookDamage = 10;
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookDamage(bookDamage)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookDamage/" + bookDamage)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookDamage").value(bookDamage))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getBooksByBookLabel 테스트")
+        void testGetBooksByBookLabel() throws Exception {
+            // given
+            String bookLabel = "test";
+            List<BookDTO> bookList = Collections.singletonList(bookDTO);
+            given(bookService.getBooksByBookLabel(bookLabel)).willReturn(bookList);
+
+            // when & then
+            mockMvc.perform(get("/book/get/bookLabel/" + bookLabel)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].bookLabel").value(bookLabel))
+                    .andExpect(status().isOk());
+        }
+    }
 }
