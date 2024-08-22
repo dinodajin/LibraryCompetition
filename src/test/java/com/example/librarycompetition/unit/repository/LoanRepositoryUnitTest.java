@@ -101,4 +101,20 @@ public class LoanRepositoryUnitTest {
             assertTrue(result.stream().allMatch(l -> !l.getLoanTime().isBefore(LocalDate.of(2024, 8, 20)) && !l.getLoanTime().isAfter(LocalDate.of(2024, 8, 22))));
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteByLoanId 테스트")
+        void testDeleteByLoanId() {
+            // when
+            loanRepository.deleteByLoanId(loan.getLoanId());
+
+            // then
+            Optional<Loan> result = loanRepository.findByLoanId(loan.getLoanId());
+            assertFalse(result.isPresent());
+        }
+    }
 }
