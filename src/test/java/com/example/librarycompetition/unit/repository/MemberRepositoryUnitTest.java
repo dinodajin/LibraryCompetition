@@ -37,4 +37,31 @@ public class MemberRepositoryUnitTest {
 
         memberRepository.save(member);
     }
+
+    @Nested
+    @DisplayName("READ 테스트")
+    class Test_READ {
+
+        @Test
+        @DisplayName("findByMemberId 테스트")
+        void testFindByMemberId() {
+            // when
+            Optional<Member> result = memberRepository.findByMemberId(member.getMemberId());
+
+            // then
+            assertTrue(result.isPresent());
+            assertEquals(member.getMemberId(), result.get().getMemberId());
+        }
+
+        @Test
+        @DisplayName("findByMemberName 테스트")
+        void testFindByMemberName() {
+            // when
+            List<Member> result = memberRepository.findByMemberName(member.getMemberName());
+
+            // then
+            assertFalse(result.isEmpty());
+            assertEquals(member.getMemberName(), result.get(0).getMemberName());
+        }
+    }
 }
