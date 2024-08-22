@@ -211,4 +211,23 @@ public class LoanServiceUnitTest {
             assertEquals(loanDTO.getLoanId(), result.getLoanId());
         }
     }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateLoan 테스트")
+        void testUpdateLoan() {
+            // given
+            given(loanRepository.save(loan)).willReturn(loan);
+
+            // when
+            LoanDTO result = loanService.updateLoan(loanDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(loanDTO.getLoanId(), result.getLoanId());
+        }
+    }
 }
