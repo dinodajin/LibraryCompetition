@@ -1,13 +1,20 @@
 package com.example.librarycompetition.dto;
 
 import com.example.librarycompetition.domain.Book;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record BookDTO(
+        @Schema(example = "1")
         String bookId,
+        @Schema(example = "1")
         Integer bookSequence,
+        @Schema(example = "가나다")
         String bookTitle,
+        @Schema(example = "가나다")
         String bookAuthor,
+        @Schema(example = "30")
         Integer bookDamage,
+        @Schema(example = "가나다")
         String bookLabel
 ) {
 
