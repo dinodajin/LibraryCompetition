@@ -45,5 +45,4 @@ public record MemberDTO(
                 .memberDamageCount(memberDamageCount)
                 .build();
     }
-
 }

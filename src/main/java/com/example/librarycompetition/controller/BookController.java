@@ -121,7 +121,7 @@ public class BookController {
 
     @Operation(summary = "Delete Book", description = "책 인덱스로 책 한권 삭제하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "책 삭제 성공"),
+            @ApiResponse(responseCode = "204", description = "책 삭제 성공"),
             @ApiResponse(responseCode = "400", description = "책을 삭제할 수 없습니다."),
     })
     @DeleteMapping("/delete/{bookId}")
