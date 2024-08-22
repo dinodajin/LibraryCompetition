@@ -96,4 +96,23 @@ public class MemberControllerUnitTest {
                     .andExpect(status().isOk());
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createMember 테스트")
+        void testCreateMember() throws Exception {
+            // given
+            given(memberService.createMember(memberDTO)).willReturn(memberDTO);
+
+            // when & then
+            mockMvc.perform(post("/member/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"memberId\": \"memberTest\", \"memberName\": \"John Doe\"}"))
+                    .andExpect(jsonPath("$.memberId").value(memberDTO.getMemberId()))
+                    .andExpect(status().isCreated());
+        }
+    }
 }
