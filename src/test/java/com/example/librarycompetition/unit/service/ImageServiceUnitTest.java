@@ -230,4 +230,22 @@ public class ImageServiceUnitTest {
             assertEquals(imageDTO.getImageId(), result.getImageId());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteImage 테스트")
+        void testDeleteImage() {
+            // given
+            willDoNothing().given(imageRepository).deleteById(imageDTO.getImageId());
+
+            // when
+            imageService.deleteImage(imageDTO.getImageId());
+
+            // then
+            verify(imageRepository, times(1)).deleteById(imageDTO.getImageId());
+        }
+    }
 }
