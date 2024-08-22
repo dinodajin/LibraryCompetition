@@ -159,4 +159,23 @@ public class ImageControllerUnitTest {
                     .andExpect(status().isCreated());
         }
     }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateImage 테스트")
+        void testUpdateImage() throws Exception {
+            // given
+            given(imageService.updateImage(imageDTO)).willReturn(imageDTO);
+
+            // when & then
+            mockMvc.perform(put("/image/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"imageId\": \"test\", \"bookId\": \"bookTest\", \"cameraId\": 123, \"imageTime\": \"2023-08-21\"}"))
+                    .andExpect(jsonPath("$.imageId").value(imageDTO.getImageId()))
+                    .andExpect(status().isAccepted());
+        }
+    }
 }
