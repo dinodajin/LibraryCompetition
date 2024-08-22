@@ -136,4 +136,23 @@ public class BookControllerUnitTest {
                     .andExpect(status().isOk());
         }
     }
+
+    @Nested
+    @DisplayName("POST 테스트")
+    class Test_POST {
+
+        @Test
+        @DisplayName("createBook 테스트")
+        void testCreateBook() throws Exception {
+            // given
+            given(bookService.createBook(bookDTO)).willReturn(bookDTO);
+
+            // when & then
+            mockMvc.perform(post("/book/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"bookId\": \"test\", \"bookSequence\": 1, \"bookTitle\": \"test\", \"bookAuthor\": \"test\", \"bookDamage\": 10, \"bookLabel\": \"test\"}"))
+                    .andExpect(jsonPath("$.bookId").value(bookDTO.getBookId()))
+                    .andExpect(status().isCreated());
+        }
+    }
 }
