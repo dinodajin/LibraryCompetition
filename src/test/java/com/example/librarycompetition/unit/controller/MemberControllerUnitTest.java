@@ -48,4 +48,52 @@ public class MemberControllerUnitTest {
 
         memberDTO = MemberDTO.of(memberId, memberName);
     }
+
+    @Nested
+    @DisplayName("GET 테스트")
+    class Test_GET {
+
+        @Test
+        @DisplayName("getOneMember 테스트")
+        void testGetOneMember() throws Exception {
+            // given
+            String memberId = "memberTest";
+            given(memberService.getOneMember(memberId)).willReturn(memberDTO);
+
+            // when & then
+            mockMvc.perform(get("/member/get/" + memberId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.memberId").value(memberId))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getAllMembers 테스트")
+        void testGetAllMembers() throws Exception {
+            // given
+            List<MemberDTO> memberList = Collections.singletonList(memberDTO);
+            given(memberService.getAllMember()).willReturn(memberList);
+
+            // when & then
+            mockMvc.perform(get("/member/get/all")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].memberId").value(memberDTO.getMemberId()))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("getMembersByMemberName 테스트")
+        void testGetMembersByMemberName() throws Exception {
+            // given
+            String memberName = "John Doe";
+            List<MemberDTO> memberList = Collections.singletonList(memberDTO);
+            given(memberService.getMembersByMemberName(memberName)).willReturn(memberList);
+
+            // when & then
+            mockMvc.perform(get("/member/get/memberName/" + memberName)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].memberName").value(memberName))
+                    .andExpect(status().isOk());
+        }
+    }
 }
