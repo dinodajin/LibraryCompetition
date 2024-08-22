@@ -211,4 +211,23 @@ public class ImageServiceUnitTest {
             assertEquals(imageDTO.getImageId(), result.getImageId());
         }
     }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateImage 테스트")
+        void testUpdateImage() {
+            // given
+            given(imageRepository.save(image)).willReturn(image);
+
+            // when
+            ImageDTO result = imageService.updateImage(imageDTO);
+
+            // then
+            assertNotNull(result);
+            assertEquals(imageDTO.getImageId(), result.getImageId());
+        }
+    }
 }
