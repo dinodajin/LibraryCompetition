@@ -150,4 +150,22 @@ public class MemberServiceUnitTest {
             assertEquals(memberDTO.getMemberId(), result.getMemberId());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteMember 테스트")
+        void testDeleteMember() {
+            // given
+            willDoNothing().given(memberRepository).deleteById(memberDTO.getMemberId());
+
+            // when
+            memberService.deleteMember(memberDTO.getMemberId());
+
+            // then
+            verify(memberRepository, times(1)).deleteById(memberDTO.getMemberId());
+        }
+    }
 }
