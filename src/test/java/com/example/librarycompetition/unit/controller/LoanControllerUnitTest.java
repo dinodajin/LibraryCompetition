@@ -185,4 +185,25 @@ public class LoanControllerUnitTest {
                     .andExpect(status().isAccepted());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteLoan 테스트")
+        void testDeleteLoan() throws Exception {
+            // given
+            String loanId = "loanTest";
+            doNothing().when(loanService).deleteLoan(loanId);
+
+            // when & then
+            mockMvc.perform(delete("/loan/delete")
+                            .param("loanId", loanId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+
+            then(loanService).should().deleteLoan(loanId);
+        }
+    }
 }
