@@ -21,7 +21,7 @@ public class Loan {
 
     private LocalDate loanTime;
     private LocalDate returnTime;
-
+    private String declaration;
     private String memberId;
     private String bookId;
 

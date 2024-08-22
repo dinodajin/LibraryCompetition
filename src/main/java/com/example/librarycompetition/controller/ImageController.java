@@ -1,6 +1,5 @@
 package com.example.librarycompetition.controller;
 
-import com.example.librarycompetition.dto.BookDTO;
 import com.example.librarycompetition.dto.ImageDTO;
 import com.example.librarycompetition.exception.ErrorDTO;
 import com.example.librarycompetition.service.ImageService;
