@@ -23,5 +23,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ErrorDTO.of("요소가 존재하지 않습니다."), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InformationIncorrectException.class)
+    protected ResponseEntity<ErrorDTO> informationIncorrectExceptionHandler(InformationIncorrectException infe) {
+        return new ResponseEntity<>(ErrorDTO.of("잘못된 정보입니다."), HttpStatus.BAD_REQUEST);
+    }
 
 }
