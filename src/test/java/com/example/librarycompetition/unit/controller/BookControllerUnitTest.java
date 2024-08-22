@@ -29,24 +29,24 @@ public class BookControllerUnitTest {
     @MockBean
     private BookService bookService;
 
+    private BookDTO bookDTO;
+
+    @BeforeEach
+    @DisplayName("스텁 설정")
+    void setUp() {
+        String bookId = "test";
+        Integer bookSequence = 1;
+        String bookTitle = "test";
+        String bookAuthor = "test";
+        Integer bookDamage = 10;
+        String bookLabel = "test";
+
+        bookDTO = BookDTO.of(bookId, bookSequence, bookTitle, bookAuthor, bookDamage, bookLabel);
+    }
+
     @Nested
     @DisplayName("GET 테스트")
     class Test_GET {
-
-        private BookDTO bookDTO;
-
-        @BeforeEach
-        @DisplayName("스텁 설정")
-        void setUp() {
-            String bookId = "test";
-            Integer bookSequence = 1;
-            String bookTitle = "test";
-            String bookAuthor = "test";
-            Integer bookDamage = 10;
-            String bookLabel = "test";
-
-            bookDTO = BookDTO.of(bookId, bookSequence, bookTitle, bookAuthor, bookDamage, bookLabel);
-        }
 
         @Test
         @DisplayName("getByOne 테스트")
