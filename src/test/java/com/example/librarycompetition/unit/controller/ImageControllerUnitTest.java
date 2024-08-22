@@ -178,4 +178,24 @@ public class ImageControllerUnitTest {
                     .andExpect(status().isAccepted());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteImage 테스트")
+        void testDeleteImage() throws Exception {
+            // given
+            String imageId = "test";
+            doNothing().when(imageService).deleteImage(imageId);
+
+            // when & then
+            mockMvc.perform(delete("/image/delete/" + imageId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+
+            then(imageService).should().deleteImage(imageId);
+        }
+    }
 }
