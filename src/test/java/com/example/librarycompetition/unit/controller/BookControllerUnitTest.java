@@ -174,4 +174,24 @@ public class BookControllerUnitTest {
                     .andExpect(status().isAccepted());
         }
     }
+
+    @Nested
+    @DisplayName("DELETE 테스트")
+    class Test_DELETE {
+
+        @Test
+        @DisplayName("deleteBook 테스트")
+        void testDeleteBook() throws Exception {
+            // given
+            String bookId = "test";
+            doNothing().when(bookService).deleteBook(bookId);
+
+            // when & then
+            mockMvc.perform(delete("/book/delete/" + bookId)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+
+            then(bookService).should().deleteBook(bookId);
+        }
+    }
 }
