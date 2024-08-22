@@ -115,4 +115,23 @@ public class MemberControllerUnitTest {
                     .andExpect(status().isCreated());
         }
     }
+
+    @Nested
+    @DisplayName("PUT 테스트")
+    class Test_PUT {
+
+        @Test
+        @DisplayName("updateMember 테스트")
+        void testUpdateMember() throws Exception {
+            // given
+            given(memberService.updateMember(memberDTO)).willReturn(memberDTO);
+
+            // when & then
+            mockMvc.perform(put("/member/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"memberId\": \"memberTest\", \"memberName\": \"John Doe\"}"))
+                    .andExpect(jsonPath("$.memberId").value(memberDTO.getMemberId()))
+                    .andExpect(status().isAccepted());
+        }
+    }
 }
