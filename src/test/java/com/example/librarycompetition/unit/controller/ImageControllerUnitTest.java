@@ -51,4 +51,16 @@ public class ImageControllerUnitTest {
 
         imageDTO = ImageDTO.of(imageId, bookId, cameraId, imageTime);
     }
+
+    @Nested
+    @DisplayName("GET 테스트")
+    class Test_GET {
+
+        @Test
+        @DisplayName("getOneImage 테스트")
+        void testGetOneImage() throws Exception {
+            // given
+            String imageId
+        }
+    }
 }
