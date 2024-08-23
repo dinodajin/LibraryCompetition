@@ -86,7 +86,7 @@ public class BookServiceUnitTest {
         void testGetBooksByBookTitle() {
             // given
             List<Book> books = Collections.singletonList(book);
-            given(bookRepository.findBooksByBookTitle(bookDTO.bookTitle())).willReturn(books);
+            given(bookRepository.findBooksByBookTitleContaining(bookDTO.bookTitle())).willReturn(books);
 
             // when
             List<BookDTO> result = bookService.getBooksByBookTitle(bookDTO.bookTitle());
@@ -101,7 +101,7 @@ public class BookServiceUnitTest {
         void testGetBooksByBookAuthor() {
             // given
             List<Book> books = Collections.singletonList(book);
-            given(bookRepository.findBooksByBookAuthor(bookDTO.bookAuthor())).willReturn(books);
+            given(bookRepository.findBooksByBookAuthorContaining(bookDTO.bookAuthor())).willReturn(books);
 
             // when
             List<BookDTO> result = bookService.getBooksByBookAuthor(bookDTO.bookAuthor());
@@ -155,7 +155,7 @@ public class BookServiceUnitTest {
         @DisplayName("getBooksByBookTitle - ListNotFoundElementException 테스트")
         void testGetBooksByBookTitle_ThrowsListNotFoundElementException() {
             // given
-            given(bookRepository.findBooksByBookTitle(bookDTO.bookTitle())).willReturn(new ArrayList<>());
+            given(bookRepository.findBooksByBookTitleContaining(bookDTO.bookTitle())).willReturn(new ArrayList<>());
 
             // when & then
             assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookTitle(bookDTO.bookTitle()));
@@ -165,7 +165,7 @@ public class BookServiceUnitTest {
         @DisplayName("getBooksByBookAuthor - ListNotFoundElementException 테스트")
         void testGetBooksByBookAuthor_ThrowsListNotFoundElementException() {
             // given
-            given(bookRepository.findBooksByBookAuthor(bookDTO.bookAuthor())).willReturn(new ArrayList<>());
+            given(bookRepository.findBooksByBookAuthorContaining(bookDTO.bookAuthor())).willReturn(new ArrayList<>());
 
             // when & then
             assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookAuthor(bookDTO.bookAuthor()));

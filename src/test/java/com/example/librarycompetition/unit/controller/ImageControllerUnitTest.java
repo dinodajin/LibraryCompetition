@@ -38,10 +38,10 @@ public class ImageControllerUnitTest {
     void setUp() {
         String imageId = "1";
         String imageUrl = "https://image.com";
-        LocalDate imageDate = LocalDate.of(2024, 8, 21);
+        LocalDate imageTime = LocalDate.of(2024, 8, 21);
         Integer cameraId = 1;
         String bookId = "1";
-        imageDTO = ImageDTO.of(imageId, imageUrl, imageDate, cameraId, bookId);
+        imageDTO = ImageDTO.of(imageId, imageUrl, imageTime, cameraId, bookId);
     }
     @Nested
     @DisplayName("GET 테스트")
@@ -92,7 +92,7 @@ public class ImageControllerUnitTest {
         }
         @Test
         @DisplayName("getImagesByImageTimeGreaterThan 테스트")
-        void testGetImagesByimageDateGreaterThan() throws Exception {
+        void testGetImagesByimageTimeGreaterThan() throws Exception {
             // given
             LocalDate startDate = LocalDate.of(2024, 8, 21);
             List<ImageDTO> imageList = Collections.singletonList(imageDTO);
@@ -100,23 +100,23 @@ public class ImageControllerUnitTest {
             // when & then
             mockMvc.perform(get("/image/get/startDate/" + startDate)
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].imageDate").value(imageDTO.imageDate().toString()))
+                    .andExpect(jsonPath("$[0].imageTime").value(imageDTO.imageTime().toString()))
                     .andExpect(status().isOk());
         }
         @Test
         @DisplayName("getImagesByImageTimeBetween 테스트")
-        void testGetImagesByImageDateBetween() throws Exception {
+        void testGetImagesByimageTimeBetween() throws Exception {
             // given
             LocalDate startDate = LocalDate.of(2024, 1, 1);
             LocalDate endDate = LocalDate.of(2024, 12, 31);
             List<ImageDTO> imageList = Collections.singletonList(imageDTO);
             given(imageService.getImagesByImageTimeBetween(startDate, endDate)).willReturn(imageList);
             // when & then
-            mockMvc.perform(get("/image/get/imageTime?")
+            mockMvc.perform(get("/image/get/imageTime")
                             .param("startDate", startDate.toString())
                             .param("endDate", endDate.toString())
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].imageDate").value(imageDTO.imageDate().toString())) // 날짜 문자열 비교
+                    .andExpect(jsonPath("$[0].imageTime").value(imageDTO.imageTime().toString())) // 날짜 문자열 비교
                     .andExpect(status().isOk());
         }
     }
@@ -131,7 +131,7 @@ public class ImageControllerUnitTest {
             // when & then
             mockMvc.perform(post("/image/create")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"imageId\": \"1\", \"imageUrl\": \"https://image.com\", \"imageDate\": \"2024-08-21\", \"cameraId\": 1,\"bookId\": \"1\"}"))
+                            .content("{\"imageId\": \"1\", \"imageUrl\": \"https://image.com\", \"imageTime\": \"2024-08-21\", \"cameraId\": 1,\"bookId\": \"1\"}"))
                     .andExpect(jsonPath("$.imageId").value(imageDTO.imageId()))
                     .andExpect(status().isCreated());
         }
@@ -147,7 +147,7 @@ public class ImageControllerUnitTest {
             // when & then
             mockMvc.perform(put("/image/update")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"imageId\": \"1\", \"imageUrl\": \"https://image.com\", \"imageDate\": \"2024-08-21\", \"cameraId\": 1,\"bookId\": \"1\"}"))
+                            .content("{\"imageId\": \"1\", \"imageUrl\": \"https://image.com\", \"imageTime\": \"2024-08-21\", \"cameraId\": 1,\"bookId\": \"1\"}"))
                     .andExpect(jsonPath("$.imageId").value(imageDTO.imageId()))
                     .andExpect(status().isAccepted());
         }

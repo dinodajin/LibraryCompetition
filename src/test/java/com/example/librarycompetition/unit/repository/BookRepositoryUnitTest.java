@@ -62,7 +62,7 @@ public class BookRepositoryUnitTest {
         @DisplayName("findBooksByBookTitle 테스트")
         void testFindBooksByBookTitle() {
             // when
-            List<Book> result = bookRepository.findBooksByBookTitle(book.getBookTitle());
+            List<Book> result = bookRepository.findBooksByBookTitleContaining(book.getBookTitle());
 
             // then
             assertFalse(result.isEmpty());
@@ -73,7 +73,7 @@ public class BookRepositoryUnitTest {
         @DisplayName("findBooksByBookAuthor 테스트")
         void testFindBooksByBookAuthor() {
             // when
-            List<Book> result = bookRepository.findBooksByBookAuthor(book.getBookAuthor());
+            List<Book> result = bookRepository.findBooksByBookAuthorContaining(book.getBookAuthor());
 
             // then
             assertFalse(result.isEmpty());

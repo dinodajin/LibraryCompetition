@@ -87,7 +87,7 @@ public class MemberServiceUnitTest {
         void testGetMembersByMemberName() {
             // given
             List<Member> members = Collections.singletonList(member);
-            given(memberRepository.findByMemberName(memberDTO.memberName())).willReturn(members);
+            given(memberRepository.findByMemberNameContaining(memberDTO.memberName())).willReturn(members);
 
             // when
             List<MemberDTO> result = memberService.getMembersByMemberName(memberDTO.memberName());
@@ -111,7 +111,7 @@ public class MemberServiceUnitTest {
         @DisplayName("getMembersByMemberName - ListNotFoundElementException 테스트")
         void testGetMembersByMemberName_ThrowsListNotFoundElementException() {
             // given
-            given(memberRepository.findByMemberName(memberDTO.memberName())).willReturn(new ArrayList<>());
+            given(memberRepository.findByMemberNameContaining(memberDTO.memberName())).willReturn(new ArrayList<>());
 
             // when & then
             assertThrows(ListNotFoundElementException.class, () -> memberService.getMembersByMemberName(memberDTO.memberName()));

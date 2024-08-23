@@ -36,6 +36,8 @@ public class LoanRepositoryUnitTest {
         loan.setLoanId("1");
         loan.setLoanTime(LocalDate.of(2024, 8, 21));
         loan.setReturnTime(LocalDate.of(2024, 8, 21));
+        // testFindLoansByLoanTimeIsNotNullAndReturnTimeIsNull() 검사시 : loan.setReturnTime(null);
+        loan.setDeclaration("책이 손상됐어요!");
         loan.setMemberId("1");
         loan.setBookId("1");
         loanRepository.save(loan);
@@ -50,6 +52,7 @@ public class LoanRepositoryUnitTest {
         void testFindByLoanId() {
             // when
             Optional<Loan> result = loanRepository.findByLoanId(loan.getLoanId());
+            System.out.println("Result: " + result); // 결과 출력
 
             // then
             assertTrue(result.isPresent());

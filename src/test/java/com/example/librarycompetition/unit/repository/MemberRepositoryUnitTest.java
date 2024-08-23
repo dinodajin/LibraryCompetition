@@ -62,7 +62,7 @@ public class MemberRepositoryUnitTest {
         @DisplayName("findByMemberName 테스트")
         void testFindByMemberName() {
             // when
-            List<Member> result = memberRepository.findByMemberName(member.getMemberName());
+            List<Member> result = memberRepository.findByMemberNameContaining(member.getMemberName());
 
             // then
             assertFalse(result.isEmpty());

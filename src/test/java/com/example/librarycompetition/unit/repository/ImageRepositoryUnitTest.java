@@ -34,7 +34,7 @@ public class ImageRepositoryUnitTest {
 
         image = new Image();
         image.setImageId("1");
-        image.setImageUrl("https://image.com");
+        image.setImageUrl("sdfksdfjsdnfklsdnkl");
         image.setImageTime(LocalDate.of(2024, 8, 21));
         image.setCameraId(1);
         image.setBookId("1");

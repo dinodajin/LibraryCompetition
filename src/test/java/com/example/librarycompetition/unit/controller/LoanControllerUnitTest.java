@@ -48,10 +48,11 @@ public class LoanControllerUnitTest {
         String loanId = "1";
         LocalDate loanTime = LocalDate.of(2024, 8, 21);
         LocalDate returnTime = LocalDate.of(2024, 8, 21);
+        String declaration = "책이 손상됐어요!";
         String memberId = "1";
         String bookId = "1";
 
-        loanDTO = LoanDTO.of(loanId, loanTime, returnTime, memberId, bookId);
+        loanDTO = LoanDTO.of(loanId, loanTime, returnTime, declaration, memberId, bookId);
     }
 
     @Nested
@@ -162,7 +163,7 @@ public class LoanControllerUnitTest {
             // when & then
             mockMvc.perform(post("/loan/create")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"loanId\": \"1\", \"loanTime\": \"2024-08-21\", \"returnTime\": \"2024-08-21\", \"memberId\": \"1\", \"bookId\": \"1\"}"))
+                            .content("{\"loanId\": \"1\", \"loanTime\": \"2024-08-21\", \"returnTime\": \"2024-08-21\", \"declaration\": \"책이 손상됐어요!\", \"memberId\": \"1\", \"bookId\": \"1\"}"))
                     .andExpect(jsonPath("$.loanId").value(loanDTO.loanId()))
                     .andExpect(status().isCreated());
         }
@@ -181,7 +182,7 @@ public class LoanControllerUnitTest {
             // when & then
             mockMvc.perform(put("/loan/update")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"loanId\": \"1\", \"loanTime\": \"2024-08-21\", \"returnTime\": \"2024-08-21\", \"memberId\": \"1\", \"bookId\": \"1\"}"))
+                            .content("{\"loanId\": \"1\", \"loanTime\": \"2024-08-21\", \"returnTime\": \"2024-08-21\", \"declaration\": \"책이 손상됐어요!\", \"memberId\": \"1\", \"bookId\": \"1\"}"))
                     .andExpect(jsonPath("$.loanId").value(loanDTO.loanId()))
                     .andExpect(status().isAccepted());
         }

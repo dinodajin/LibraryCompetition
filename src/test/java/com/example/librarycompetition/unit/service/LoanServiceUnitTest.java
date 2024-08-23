@@ -42,9 +42,10 @@ public class LoanServiceUnitTest {
         String loanId = "1";
         LocalDate loanTime = LocalDate.of(2024, 8, 21);
         LocalDate returnTime = LocalDate.of(2024, 8, 21);
+        String declaration = "책이 손상됐어요!";
         String memberId = "1";
         String bookId = "1";
-        loanDTO = LoanDTO.of(loanId, loanTime, returnTime, memberId, bookId);
+        loanDTO = LoanDTO.of(loanId, loanTime, returnTime, declaration, memberId, bookId);
         loan = loanDTO.toEntity();
     }
 
