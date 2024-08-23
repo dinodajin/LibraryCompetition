@@ -6,6 +6,7 @@ import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
 import com.example.librarycompetition.repository.LoanRepository;
 import com.example.librarycompetition.service.LoanService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -38,12 +39,13 @@ public class LoanServiceUnitTest {
     @DisplayName("스텁 설정")
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        String loanId = "testLoanId";
-        String memberId = "testMemberId";
-        String bookId = "testBookId";
-        LocalDate loanTime = LocalDate.now();
-
-        loanDTO = LoanDTO.of(loanId, memberId, bookId, loanTime, null);
+        String loanId = "1";
+        LocalDate loanTime = LocalDate.of(2024, 8, 21);
+        LocalDate returnTime = LocalDate.of(2024, 8, 21);
+        String declaration = "책이 손상됐어요!";
+        String memberId = "1";
+        String bookId = "1";
+        loanDTO = LoanDTO.of(loanId, loanTime, returnTime, declaration, memberId, bookId);
         loan = loanDTO.toEntity();
     }
 
@@ -55,14 +57,14 @@ public class LoanServiceUnitTest {
         @DisplayName("getOneLoan 테스트")
         void testGetOneLoan() {
             // given
-            given(loanRepository.findById(loanDTO.getLoanId())).willReturn(Optional.of(loan));
+            given(loanRepository.findById(loanDTO.loanId())).willReturn(Optional.of(loan));
 
             // when
-            LoanDTO result = loanService.getOneLoan(loanDTO.getLoanId());
+            LoanDTO result = loanService.getOneLoan(loanDTO.loanId());
 
             // then
             assertNotNull(result);
-            assertEquals(loanDTO.getLoanId(), result.getLoanId());
+            assertEquals(loanDTO.loanId(), result.loanId());
         }
 
         @Test
@@ -77,7 +79,7 @@ public class LoanServiceUnitTest {
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(loanDTO.getLoanId(), result.get(0).getLoanId());
+            assertEquals(loanDTO.loanId(), result.get(0).loanId());
         }
 
         @Test
@@ -85,14 +87,14 @@ public class LoanServiceUnitTest {
         void testGetLoansByMemberId() {
             // given
             List<Loan> loans = Collections.singletonList(loan);
-            given(loanRepository.findLoansByMemberId(loanDTO.getMemberId())).willReturn(loans);
+            given(loanRepository.findLoansByMemberId(loanDTO.memberId())).willReturn(loans);
 
             // when
-            List<LoanDTO> result = loanService.getLoansByMemberId(loanDTO.getMemberId());
+            List<LoanDTO> result = loanService.getLoansByMemberId(loanDTO.memberId());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(loanDTO.getMemberId(), result.get(0).getMemberId());
+            assertEquals(loanDTO.memberId(), result.get(0).memberId());
         }
 
         @Test
@@ -100,14 +102,14 @@ public class LoanServiceUnitTest {
         void testGetLoansByBookId() {
             // given
             List<Loan> loans = Collections.singletonList(loan);
-            given(loanRepository.findLoansByBookId(loanDTO.getBookId())).willReturn(loans);
+            given(loanRepository.findLoansByBookId(loanDTO.bookId())).willReturn(loans);
 
             // when
-            List<LoanDTO> result = loanService.getLoansByBookId(loanDTO.getBookId());
+            List<LoanDTO> result = loanService.getLoansByBookId(loanDTO.bookId());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(loanDTO.getBookId(), result.get(0).getBookId());
+            assertEquals(loanDTO.bookId(), result.get(0).bookId());
         }
 
         @Test
@@ -122,7 +124,7 @@ public class LoanServiceUnitTest {
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(loanDTO.getLoanId(), result.get(0).getLoanId());
+            assertEquals(loanDTO.loanId(), result.get(0).loanId());
         }
 
         @Test
@@ -131,14 +133,14 @@ public class LoanServiceUnitTest {
             // given
             LocalDate endDate = LocalDate.now().plusDays(1);
             List<Loan> loans = Collections.singletonList(loan);
-            given(loanRepository.findLoansByLoanTimeBetween(loanDTO.getLoanTime(), endDate)).willReturn(loans);
+            given(loanRepository.findLoansByLoanTimeBetween(loanDTO.loanTime(), endDate)).willReturn(loans);
 
             // when
-            List<LoanDTO> result = loanService.getLoansByLoanTimeBetween(loanDTO.getLoanTime(), endDate);
+            List<LoanDTO> result = loanService.getLoansByLoanTimeBetween(loanDTO.loanTime(), endDate);
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(loanDTO.getLoanTime(), result.get(0).getLoanTime());
+            assertEquals(loanDTO.loanTime(), result.get(0).loanTime());
         }
 
         @Test
@@ -155,20 +157,20 @@ public class LoanServiceUnitTest {
         @DisplayName("getLoansByMemberId - ListNotFoundElementException 테스트")
         void testGetLoansByMemberId_ThrowsListNotFoundElementException() {
             // given
-            given(loanRepository.findLoansByMemberId(loanDTO.getMemberId())).willReturn(new ArrayList<>());
+            given(loanRepository.findLoansByMemberId(loanDTO.memberId())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByMemberId(loanDTO.getMemberId()));
+            assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByMemberId(loanDTO.memberId()));
         }
 
         @Test
         @DisplayName("getLoansByBookId - ListNotFoundElementException 테스트")
         void testGetLoansByBookId_ThrowsListNotFoundElementException() {
             // given
-            given(loanRepository.findLoansByBookId(loanDTO.getBookId())).willReturn(new ArrayList<>());
+            given(loanRepository.findLoansByBookId(loanDTO.bookId())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByBookId(loanDTO.getBookId()));
+            assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByBookId(loanDTO.bookId()));
         }
 
         @Test
@@ -186,10 +188,10 @@ public class LoanServiceUnitTest {
         void testGetLoansByLoanTimeBetween_ThrowsListNotFoundElementException() {
             // given
             LocalDate endDate = LocalDate.now().plusDays(1);
-            given(loanRepository.findLoansByLoanTimeBetween(loanDTO.getLoanTime(), endDate)).willReturn(new ArrayList<>());
+            given(loanRepository.findLoansByLoanTimeBetween(loanDTO.loanTime(), endDate)).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByLoanTimeBetween(loanDTO.getLoanTime(), endDate));
+            assertThrows(ListNotFoundElementException.class, () -> loanService.getLoansByLoanTimeBetween(loanDTO.loanTime(), endDate));
         }
     }
 
@@ -208,7 +210,7 @@ public class LoanServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(loanDTO.getLoanId(), result.getLoanId());
+            assertEquals(loanDTO.loanId(), result.loanId());
         }
     }
 
@@ -227,7 +229,7 @@ public class LoanServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(loanDTO.getLoanId(), result.getLoanId());
+            assertEquals(loanDTO.loanId(), result.loanId());
         }
     }
 
@@ -239,13 +241,13 @@ public class LoanServiceUnitTest {
         @DisplayName("deleteLoan 테스트")
         void testDeleteLoan() {
             // given
-            willDoNothing().given(loanRepository).deleteByLoanId(loanDTO.getLoanId());
+            willDoNothing().given(loanRepository).deleteByLoanId(loanDTO.loanId());
 
             // when
-            loanService.deleteLoan(loanDTO.getLoanId());
+            loanService.deleteLoan(loanDTO.loanId());
 
             // then
-            verify(loanRepository, times(1)).deleteByLoanId(loanDTO.getLoanId());
+            verify(loanRepository, times(1)).deleteByLoanId(loanDTO.loanId());
         }
     }
 }
