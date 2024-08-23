@@ -18,7 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,13 +39,12 @@ public class BookControllerUnitTest {
     @BeforeEach
     @DisplayName("스텁 설정")
     void setUp() {
-        String bookId = "test";
+        String bookId = "1";
         Integer bookSequence = 1;
-        String bookTitle = "test";
-        String bookAuthor = "test";
-        Integer bookDamage = 10;
-        String bookLabel = "test";
-
+        String bookTitle = "가나다";
+        String bookAuthor = "가나다";
+        Integer bookDamage = 30;
+        String bookLabel = "가나다";
         bookDTO = BookDTO.of(bookId, bookSequence, bookTitle, bookAuthor, bookDamage, bookLabel);
     }
 
@@ -55,7 +56,7 @@ public class BookControllerUnitTest {
         @DisplayName("getByOneBook 테스트")
         void testGetOneBook() throws Exception {
             // given
-            String bookId = "test";
+            String bookId = "1";
             given(bookService.getOneBook(bookId)).willReturn(bookDTO);
 
             // when & then
@@ -83,7 +84,7 @@ public class BookControllerUnitTest {
         @DisplayName("getBooksByBookTitle 테스트")
         void testGetBooksByBookTitle() throws Exception {
             // given
-            String bookTitle = "test";
+            String bookTitle = "가나다";
             List<BookDTO> bookList = Collections.singletonList(bookDTO);
             given(bookService.getBooksByBookTitle(bookTitle)).willReturn(bookList);
 
@@ -98,7 +99,7 @@ public class BookControllerUnitTest {
         @DisplayName("getBooksByBookAuthor 테스트")
         void testGetBooksByBookAuthor() throws Exception {
             // given
-            String bookAuthor = "test";
+            String bookAuthor = "가나다";
             List<BookDTO> bookList = Collections.singletonList(bookDTO);
             given(bookService.getBooksByBookAuthor(bookAuthor)).willReturn(bookList);
 
@@ -113,7 +114,7 @@ public class BookControllerUnitTest {
         @DisplayName("getBooksByBookDamage 테스트")
         void testGetBooksByBookDamage() throws Exception {
             // given
-            Integer bookDamage = 10;
+            Integer bookDamage = 30;
             List<BookDTO> bookList = Collections.singletonList(bookDTO);
             given(bookService.getBooksByBookDamage(bookDamage)).willReturn(bookList);
 
@@ -128,7 +129,7 @@ public class BookControllerUnitTest {
         @DisplayName("getBooksByBookLabel 테스트")
         void testGetBooksByBookLabel() throws Exception {
             // given
-            String bookLabel = "test";
+            String bookLabel = "가나다";
             List<BookDTO> bookList = Collections.singletonList(bookDTO);
             given(bookService.getBooksByBookLabel(bookLabel)).willReturn(bookList);
 
@@ -153,8 +154,8 @@ public class BookControllerUnitTest {
             // when & then
             mockMvc.perform(post("/book/create")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"bookId\": \"test\", \"bookSequence\": 1, \"bookTitle\": \"test\", \"bookAuthor\": \"test\", \"bookDamage\": 10, \"bookLabel\": \"test\"}"))
-                    .andExpect(jsonPath("$.bookId").value(bookDTO.getBookId()))
+                            .content("{\"bookId\": \"1\", \"bookSequence\": 1, \"bookTitle\": \"가나다\", \"bookAuthor\": \"가나다\", \"bookDamage\": 30, \"bookLabel\": \"가나다\"}"))
+                    .andExpect(jsonPath("$.bookId").value(bookDTO.bookId()))
                     .andExpect(status().isCreated());
         }
     }
@@ -172,8 +173,8 @@ public class BookControllerUnitTest {
             // when & then
             mockMvc.perform(put("/book/update")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"bookId\": \"test\", \"bookSequence\": 1, \"bookTitle\": \"test\", \"bookAuthor\": \"test\", \"bookDamage\": 10, \"bookLabel\": \"test\"}"))
-                    .andExpect(jsonPath("$.bookId").value(bookDTO.getBookId()))
+                            .content("{\"bookId\": \"1\", \"bookSequence\": 1, \"bookTitle\": \"가나다\", \"bookAuthor\": \"가나다\", \"bookDamage\": 30, \"bookLabel\": \"가나다\"}"))
+                    .andExpect(jsonPath("$.bookId").value(bookDTO.bookId()))
                     .andExpect(status().isAccepted());
         }
     }

@@ -34,11 +34,11 @@ public class BookRepositoryUnitTest {
         mongoTemplate.dropCollection(Book.class);
 
         book = new Book();
-        book.setBookId("testBookId");
-        book.setBookTitle("Test Title");
-        book.setBookAuthor("Test Author");
-        book.setBookDamage(0);
-        book.setBookLabel("Test Label");
+        book.setBookId("1");
+        book.setBookTitle("가나다");
+        book.setBookAuthor("가나다");
+        book.setBookDamage(30);
+        book.setBookLabel("가나다");
 
         bookRepository.save(book);
     }
@@ -62,7 +62,7 @@ public class BookRepositoryUnitTest {
         @DisplayName("findBooksByBookTitle 테스트")
         void testFindBooksByBookTitle() {
             // when
-            List<Book> result = bookRepository.findBooksByBookTitle(book.getBookTitle());
+            List<Book> result = bookRepository.findBooksByBookTitleContaining(book.getBookTitle());
 
             // then
             assertFalse(result.isEmpty());
@@ -73,7 +73,7 @@ public class BookRepositoryUnitTest {
         @DisplayName("findBooksByBookAuthor 테스트")
         void testFindBooksByBookAuthor() {
             // when
-            List<Book> result = bookRepository.findBooksByBookAuthor(book.getBookAuthor());
+            List<Book> result = bookRepository.findBooksByBookAuthorContaining(book.getBookAuthor());
 
             // then
             assertFalse(result.isEmpty());

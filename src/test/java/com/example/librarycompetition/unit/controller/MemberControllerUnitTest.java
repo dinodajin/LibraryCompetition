@@ -3,6 +3,7 @@ package com.example.librarycompetition.unit.controller;
 import com.example.librarycompetition.controller.MemberController;
 import com.example.librarycompetition.dto.MemberDTO;
 import com.example.librarycompetition.service.MemberService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,11 +44,14 @@ public class MemberControllerUnitTest {
     @BeforeEach
     @DisplayName("스텁 설정")
     void setUp() {
-        // 테스트에 사용할 MemberDTO 객체를 초기화합니다.
-        String memberId = "memberTest";
-        String memberName = "John Doe";
+        String memberId = "1";
+        String memberName = "가나다";
+        LocalDate memberBirth = LocalDate.of(2024, 8, 21);
+        String memberPhoneNumber = "010-1111-2222";
+        String memberWarning = "정상";
+        Integer memberDamageCount = 1;
 
-        memberDTO = MemberDTO.of(memberId, memberName);
+        memberDTO = MemberDTO.of(memberId, memberName, memberBirth, memberPhoneNumber, memberWarning, memberDamageCount);
     }
 
     @Nested
@@ -57,7 +62,7 @@ public class MemberControllerUnitTest {
         @DisplayName("getOneMember 테스트")
         void testGetOneMember() throws Exception {
             // given
-            String memberId = "memberTest";
+            String memberId = "1";
             given(memberService.getOneMember(memberId)).willReturn(memberDTO);
 
             // when & then
@@ -77,7 +82,7 @@ public class MemberControllerUnitTest {
             // when & then
             mockMvc.perform(get("/member/get/all")
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].memberId").value(memberDTO.getMemberId()))
+                    .andExpect(jsonPath("$[0].memberId").value(memberDTO.memberId()))
                     .andExpect(status().isOk());
         }
 
@@ -85,7 +90,7 @@ public class MemberControllerUnitTest {
         @DisplayName("getMembersByMemberName 테스트")
         void testGetMembersByMemberName() throws Exception {
             // given
-            String memberName = "John Doe";
+            String memberName = "가나다";
             List<MemberDTO> memberList = Collections.singletonList(memberDTO);
             given(memberService.getMembersByMemberName(memberName)).willReturn(memberList);
 
@@ -110,8 +115,8 @@ public class MemberControllerUnitTest {
             // when & then
             mockMvc.perform(post("/member/create")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"memberId\": \"memberTest\", \"memberName\": \"John Doe\"}"))
-                    .andExpect(jsonPath("$.memberId").value(memberDTO.getMemberId()))
+                            .content("{\"memberId\": \"1\", \"memberName\": \"가나다\", \"memberBirth\":  \"2024-08-21\", \"memberPhoneNumber\":  \"010-1111-2222\", \"memberWarning\":  \"정상\", \"memberDamageCount\":  1}"))
+                    .andExpect(jsonPath("$.memberId").value(memberDTO.memberId()))
                     .andExpect(status().isCreated());
         }
     }
@@ -129,8 +134,8 @@ public class MemberControllerUnitTest {
             // when & then
             mockMvc.perform(put("/member/update")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"memberId\": \"memberTest\", \"memberName\": \"John Doe\"}"))
-                    .andExpect(jsonPath("$.memberId").value(memberDTO.getMemberId()))
+                            .content("{\"memberId\": \"1\", \"memberName\": \"가나다\", \"memberBirth\":  \"2024-08-21\", \"memberPhoneNumber\":  \"010-1111-2222\", \"memberWarning\":  \"정상\", \"memberDamageCount\":  1}"))
+                    .andExpect(jsonPath("$.memberId").value(memberDTO.memberId()))
                     .andExpect(status().isAccepted());
         }
     }
@@ -143,7 +148,7 @@ public class MemberControllerUnitTest {
         @DisplayName("deleteMember 테스트")
         void testDeleteMember() throws Exception {
             // given
-            String memberId = "memberTest";
+            String memberId = "1";
             doNothing().when(memberService).deleteMember(memberId);
 
             // when & then

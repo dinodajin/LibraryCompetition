@@ -56,14 +56,14 @@ public class BookServiceUnitTest {
         @DisplayName("getOneBook 테스트")
         void testGetOneBook() {
             // given
-            given(bookRepository.findByBookId(bookDTO.getBookId())).willReturn(Optional.of(book));
+            given(bookRepository.findByBookId(bookDTO.bookId())).willReturn(Optional.of(book));
 
             // when
-            BookDTO result = bookService.getOneBook(bookDTO.getBookId());
+            BookDTO result = bookService.getOneBook(bookDTO.bookId());
 
             // then
             assertNotNull(result);
-            assertEquals(bookDTO.getBookId(), result.getBookId());
+            assertEquals(bookDTO.bookId(), result.bookId());
         }
 
         @Test
@@ -78,7 +78,7 @@ public class BookServiceUnitTest {
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(bookDTO.getBookId(), result.get(0).getBookId());
+            assertEquals(bookDTO.bookId(), result.get(0).bookId());
         }
 
         @Test
@@ -86,14 +86,14 @@ public class BookServiceUnitTest {
         void testGetBooksByBookTitle() {
             // given
             List<Book> books = Collections.singletonList(book);
-            given(bookRepository.findBooksByBookTitle(bookDTO.getBookTitle())).willReturn(books);
+            given(bookRepository.findBooksByBookTitleContaining(bookDTO.bookTitle())).willReturn(books);
 
             // when
-            List<BookDTO> result = bookService.getBooksByBookTitle(bookDTO.getBookTitle());
+            List<BookDTO> result = bookService.getBooksByBookTitle(bookDTO.bookTitle());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(bookDTO.getBookTitle(), result.get(0).getBookTitle());
+            assertEquals(bookDTO.bookTitle(), result.get(0).bookTitle());
         }
 
         @Test
@@ -101,14 +101,14 @@ public class BookServiceUnitTest {
         void testGetBooksByBookAuthor() {
             // given
             List<Book> books = Collections.singletonList(book);
-            given(bookRepository.findBooksByBookAuthor(bookDTO.getBookAuthor())).willReturn(books);
+            given(bookRepository.findBooksByBookAuthorContaining(bookDTO.bookAuthor())).willReturn(books);
 
             // when
-            List<BookDTO> result = bookService.getBooksByBookAuthor(bookDTO.getBookAuthor());
+            List<BookDTO> result = bookService.getBooksByBookAuthor(bookDTO.bookAuthor());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(bookDTO.getBookAuthor(), result.get(0).getBookAuthor());
+            assertEquals(bookDTO.bookAuthor(), result.get(0).bookAuthor());
         }
 
         @Test
@@ -116,14 +116,14 @@ public class BookServiceUnitTest {
         void testGetBooksByBookDamage() {
             // given
             List<Book> books = Collections.singletonList(book);
-            given(bookRepository.findBooksByBookDamage(bookDTO.getBookDamage())).willReturn(books);
+            given(bookRepository.findBooksByBookDamage(bookDTO.bookDamage())).willReturn(books);
 
             // when
-            List<BookDTO> result = bookService.getBooksByBookDamage(bookDTO.getBookDamage());
+            List<BookDTO> result = bookService.getBooksByBookDamage(bookDTO.bookDamage());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(bookDTO.getBookDamage(), result.get(0).getBookDamage());
+            assertEquals(bookDTO.bookDamage(), result.get(0).bookDamage());
         }
 
         @Test
@@ -131,14 +131,14 @@ public class BookServiceUnitTest {
         void testGetBooksByBookLabel() {
             // given
             List<Book> books = Collections.singletonList(book);
-            given(bookRepository.findBooksByBookLabel(bookDTO.getBookLabel())).willReturn(books);
+            given(bookRepository.findBooksByBookLabel(bookDTO.bookLabel())).willReturn(books);
 
             // when
-            List<BookDTO> result = bookService.getBooksByBookLabel(bookDTO.getBookLabel());
+            List<BookDTO> result = bookService.getBooksByBookLabel(bookDTO.bookLabel());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(bookDTO.getBookLabel(), result.get(0).getBookLabel());
+            assertEquals(bookDTO.bookLabel(), result.get(0).bookLabel());
         }
 
         @Test
@@ -155,40 +155,40 @@ public class BookServiceUnitTest {
         @DisplayName("getBooksByBookTitle - ListNotFoundElementException 테스트")
         void testGetBooksByBookTitle_ThrowsListNotFoundElementException() {
             // given
-            given(bookRepository.findBooksByBookTitle(bookDTO.getBookTitle())).willReturn(new ArrayList<>());
+            given(bookRepository.findBooksByBookTitleContaining(bookDTO.bookTitle())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookTitle(bookDTO.getBookTitle()));
+            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookTitle(bookDTO.bookTitle()));
         }
 
         @Test
         @DisplayName("getBooksByBookAuthor - ListNotFoundElementException 테스트")
         void testGetBooksByBookAuthor_ThrowsListNotFoundElementException() {
             // given
-            given(bookRepository.findBooksByBookAuthor(bookDTO.getBookAuthor())).willReturn(new ArrayList<>());
+            given(bookRepository.findBooksByBookAuthorContaining(bookDTO.bookAuthor())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookAuthor(bookDTO.getBookAuthor()));
+            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookAuthor(bookDTO.bookAuthor()));
         }
 
         @Test
         @DisplayName("getBooksByBookDamage - ListNotFoundElementException 테스트")
         void testGetBooksByBookDamage_ThrowsListNotFoundElementException() {
             // given
-            given(bookRepository.findBooksByBookDamage(bookDTO.getBookDamage())).willReturn(new ArrayList<>());
+            given(bookRepository.findBooksByBookDamage(bookDTO.bookDamage())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookDamage(bookDTO.getBookDamage()));
+            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookDamage(bookDTO.bookDamage()));
         }
 
         @Test
         @DisplayName("getBooksByBookLabel - ListNotFoundElementException 테스트")
         void testGetBooksByBookLabel_ThrowsListNotFoundElementException() {
             // given
-            given(bookRepository.findBooksByBookLabel(bookDTO.getBookLabel())).willReturn(new ArrayList<>());
+            given(bookRepository.findBooksByBookLabel(bookDTO.bookLabel())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookLabel(bookDTO.getBookLabel()));
+            assertThrows(ListNotFoundElementException.class, () -> bookService.getBooksByBookLabel(bookDTO.bookLabel()));
         }
     }
 
@@ -207,7 +207,7 @@ public class BookServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(bookDTO.getBookId(), result.getBookId());
+            assertEquals(bookDTO.bookId(), result.bookId());
         }
     }
 
@@ -226,7 +226,7 @@ public class BookServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(bookDTO.getBookId(), result.getBookId());
+            assertEquals(bookDTO.bookId(), result.bookId());
         }
     }
 
@@ -238,13 +238,13 @@ public class BookServiceUnitTest {
         @DisplayName("deleteBook 테스트")
         void testDeleteBook() {
             // given
-            willDoNothing().given(bookRepository).deleteByBookId(bookDTO.getBookId());
+            willDoNothing().given(bookRepository).deleteByBookId(bookDTO.bookId());
 
             // when
-            bookService.deleteBook(bookDTO.getBookId());
+            bookService.deleteBook(bookDTO.bookId());
 
             // then
-            verify(bookRepository, times(1)).deleteByBookId(bookDTO.getBookId());
+            verify(bookRepository, times(1)).deleteByBookId(bookDTO.bookId());
         }
     }
 }

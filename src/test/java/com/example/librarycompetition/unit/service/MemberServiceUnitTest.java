@@ -6,6 +6,7 @@ import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
 import com.example.librarycompetition.repository.MemberRepository;
 import com.example.librarycompetition.service.MemberService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,10 +39,13 @@ public class MemberServiceUnitTest {
     @DisplayName("스텁 설정")
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        String memberId = "testMemberId";
-        String memberName = "testMemberName";
-
-        memberDTO = MemberDTO.of(memberId, memberName);
+        String memberId = "1";
+        String memberName = "가나다";
+        LocalDate memberBirth = LocalDate.of(2024, 8, 21);
+        String memberPhoneNumber = "010-1111-2222";
+        String memberWarning = "정상";
+        Integer memberDamageCount = 1;
+        memberDTO = MemberDTO.of(memberId, memberName, memberBirth, memberPhoneNumber, memberWarning, memberDamageCount);
         member = memberDTO.toEntity();
     }
 
@@ -52,14 +57,14 @@ public class MemberServiceUnitTest {
         @DisplayName("getOneMember 테스트")
         void testGetOneMember() {
             // given
-            given(memberRepository.findByMemberId(memberDTO.getMemberId())).willReturn(Optional.of(member));
+            given(memberRepository.findByMemberId(memberDTO.memberId())).willReturn(Optional.of(member));
 
             // when
-            MemberDTO result = memberService.getOneMember(memberDTO.getMemberId());
+            MemberDTO result = memberService.getOneMember(memberDTO.memberId());
 
             // then
             assertNotNull(result);
-            assertEquals(memberDTO.getMemberId(), result.getMemberId());
+            assertEquals(memberDTO.memberId(), result.memberId());
         }
 
         @Test
@@ -74,7 +79,7 @@ public class MemberServiceUnitTest {
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(memberDTO.getMemberId(), result.get(0).getMemberId());
+            assertEquals(memberDTO.memberId(), result.get(0).memberId());
         }
 
         @Test
@@ -82,14 +87,14 @@ public class MemberServiceUnitTest {
         void testGetMembersByMemberName() {
             // given
             List<Member> members = Collections.singletonList(member);
-            given(memberRepository.findByMemberName(memberDTO.getMemberName())).willReturn(members);
+            given(memberRepository.findByMemberNameContaining(memberDTO.memberName())).willReturn(members);
 
             // when
-            List<MemberDTO> result = memberService.getMembersByMemberName(memberDTO.getMemberName());
+            List<MemberDTO> result = memberService.getMembersByMemberName(memberDTO.memberName());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(memberDTO.getMemberName(), result.get(0).getMemberName());
+            assertEquals(memberDTO.memberName(), result.get(0).memberName());
         }
 
         @Test
@@ -106,10 +111,10 @@ public class MemberServiceUnitTest {
         @DisplayName("getMembersByMemberName - ListNotFoundElementException 테스트")
         void testGetMembersByMemberName_ThrowsListNotFoundElementException() {
             // given
-            given(memberRepository.findByMemberName(memberDTO.getMemberName())).willReturn(new ArrayList<>());
+            given(memberRepository.findByMemberNameContaining(memberDTO.memberName())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> memberService.getMembersByMemberName(memberDTO.getMemberName()));
+            assertThrows(ListNotFoundElementException.class, () -> memberService.getMembersByMemberName(memberDTO.memberName()));
         }
     }
 
@@ -128,7 +133,7 @@ public class MemberServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(memberDTO.getMemberId(), result.getMemberId());
+            assertEquals(memberDTO.memberId(), result.memberId());
         }
     }
 
@@ -147,7 +152,7 @@ public class MemberServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(memberDTO.getMemberId(), result.getMemberId());
+            assertEquals(memberDTO.memberId(), result.memberId());
         }
     }
 
@@ -159,13 +164,13 @@ public class MemberServiceUnitTest {
         @DisplayName("deleteMember 테스트")
         void testDeleteMember() {
             // given
-            willDoNothing().given(memberRepository).deleteById(memberDTO.getMemberId());
+            willDoNothing().given(memberRepository).deleteById(memberDTO.memberId());
 
             // when
-            memberService.deleteMember(memberDTO.getMemberId());
+            memberService.deleteMember(memberDTO.memberId());
 
             // then
-            verify(memberRepository, times(1)).deleteById(memberDTO.getMemberId());
+            verify(memberRepository, times(1)).deleteById(memberDTO.memberId());
         }
     }
 }

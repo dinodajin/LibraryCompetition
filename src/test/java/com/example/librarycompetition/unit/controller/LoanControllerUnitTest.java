@@ -3,6 +3,7 @@ package com.example.librarycompetition.unit.controller;
 import com.example.librarycompetition.controller.LoanController;
 import com.example.librarycompetition.dto.LoanDTO;
 import com.example.librarycompetition.service.LoanService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,13 +45,14 @@ public class LoanControllerUnitTest {
     @DisplayName("스텁 설정")
     void setUp() {
         // 테스트에 사용할 LoanDTO 객체를 초기화합니다.
-        String loanId = "loanTest";
-        String memberId = "memberTest";
-        String bookId = "bookTest";
-        LocalDate loanTime = LocalDate.of(2023, 8, 21);
-        LocalDate returnTime = null; // 아직 반납되지 않은 상태
+        String loanId = "1";
+        LocalDate loanTime = LocalDate.of(2024, 8, 21);
+        LocalDate returnTime = LocalDate.of(2024, 8, 21);
+        String declaration = "책이 손상됐어요!";
+        String memberId = "1";
+        String bookId = "1";
 
-        loanDTO = LoanDTO.of(loanId, memberId, bookId, loanTime, returnTime);
+        loanDTO = LoanDTO.of(loanId, loanTime, returnTime, declaration, memberId, bookId);
     }
 
     @Nested
@@ -61,7 +63,7 @@ public class LoanControllerUnitTest {
         @DisplayName("getOneLoan 테스트")
         void testGetOneLoan() throws Exception {
             // given
-            String loanId = "loanTest";
+            String loanId = "1";
             given(loanService.getOneLoan(loanId)).willReturn(loanDTO);
 
             // when & then
@@ -81,7 +83,7 @@ public class LoanControllerUnitTest {
             // when & then
             mockMvc.perform(get("/loan/get/all")
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.getLoanId()))
+                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.loanId()))
                     .andExpect(status().isOk());
         }
 
@@ -89,7 +91,7 @@ public class LoanControllerUnitTest {
         @DisplayName("getLoansByMemberId 테스트")
         void testGetLoansByMemberId() throws Exception {
             // given
-            String memberId = "memberTest";
+            String memberId = "1";
             List<LoanDTO> loanList = Collections.singletonList(loanDTO);
             given(loanService.getLoansByMemberId(memberId)).willReturn(loanList);
 
@@ -104,7 +106,7 @@ public class LoanControllerUnitTest {
         @DisplayName("getLoansByBookId 테스트")
         void testGetLoansByBookId() throws Exception {
             // given
-            String bookId = "bookTest";
+            String bookId = "1";
             List<LoanDTO> loanList = Collections.singletonList(loanDTO);
             given(loanService.getLoansByBookId(bookId)).willReturn(loanList);
 
@@ -125,7 +127,7 @@ public class LoanControllerUnitTest {
             // when & then
             mockMvc.perform(get("/loan/get/currentLoan")
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.getLoanId()))
+                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.loanId()))
                     .andExpect(status().isOk());
         }
 
@@ -143,7 +145,7 @@ public class LoanControllerUnitTest {
                             .param("startDate", startDate.toString())
                             .param("endDate", endDate.toString())
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.getLoanId()))
+                    .andExpect(jsonPath("$[0].loanId").value(loanDTO.loanId()))
                     .andExpect(status().isOk());
         }
     }
@@ -161,8 +163,8 @@ public class LoanControllerUnitTest {
             // when & then
             mockMvc.perform(post("/loan/create")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"loanId\": \"loanTest\", \"memberId\": \"memberTest\", \"bookId\": \"bookTest\", \"loanTime\": \"2023-08-21\", \"returnTime\": null}"))
-                    .andExpect(jsonPath("$.loanId").value(loanDTO.getLoanId()))
+                            .content("{\"loanId\": \"1\", \"loanTime\": \"2024-08-21\", \"returnTime\": \"2024-08-21\", \"declaration\": \"책이 손상됐어요!\", \"memberId\": \"1\", \"bookId\": \"1\"}"))
+                    .andExpect(jsonPath("$.loanId").value(loanDTO.loanId()))
                     .andExpect(status().isCreated());
         }
     }
@@ -180,8 +182,8 @@ public class LoanControllerUnitTest {
             // when & then
             mockMvc.perform(put("/loan/update")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"loanId\": \"loanTest\", \"memberId\": \"memberTest\", \"bookId\": \"bookTest\", \"loanTime\": \"2023-08-21\", \"returnTime\": null}"))
-                    .andExpect(jsonPath("$.loanId").value(loanDTO.getLoanId()))
+                            .content("{\"loanId\": \"1\", \"loanTime\": \"2024-08-21\", \"returnTime\": \"2024-08-21\", \"declaration\": \"책이 손상됐어요!\", \"memberId\": \"1\", \"bookId\": \"1\"}"))
+                    .andExpect(jsonPath("$.loanId").value(loanDTO.loanId()))
                     .andExpect(status().isAccepted());
         }
     }
@@ -194,7 +196,7 @@ public class LoanControllerUnitTest {
         @DisplayName("deleteLoan 테스트")
         void testDeleteLoan() throws Exception {
             // given
-            String loanId = "loanTest";
+            String loanId = "1";
             doNothing().when(loanService).deleteLoan(loanId);
 
             // when & then

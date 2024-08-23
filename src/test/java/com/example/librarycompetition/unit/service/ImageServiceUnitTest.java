@@ -6,6 +6,7 @@ import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
 import com.example.librarycompetition.repository.ImageRepository;
 import com.example.librarycompetition.service.ImageService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -38,12 +39,12 @@ public class ImageServiceUnitTest {
     @DisplayName("스텁 설정")
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        String imageId = "testImageId";
+        String imageId = "1";
+        String imageUrl = "https://image.com";
+        LocalDate imageTime = LocalDate.of(2024, 8, 21);
         Integer cameraId = 1;
-        String bookId = "testBookId";
-        LocalDate imageTime = LocalDate.now();
-
-        imageDTO = ImageDTO.of(imageId, cameraId, bookId, imageTime);
+        String bookId = "1";
+        imageDTO = ImageDTO.of(imageId, imageUrl, imageTime, cameraId, bookId);
         image = imageDTO.toEntity();
     }
 
@@ -55,14 +56,14 @@ public class ImageServiceUnitTest {
         @DisplayName("getOneImage 테스트")
         void testGetOneImage() {
             // given
-            given(imageRepository.findByImageId(imageDTO.getImageId())).willReturn(Optional.of(image));
+            given(imageRepository.findByImageId(imageDTO.imageId())).willReturn(Optional.of(image));
 
             // when
-            ImageDTO result = imageService.getOneImage(imageDTO.getImageId());
+            ImageDTO result = imageService.getOneImage(imageDTO.imageId());
 
             // then
             assertNotNull(result);
-            assertEquals(imageDTO.getImageId(), result.getImageId());
+            assertEquals(imageDTO.imageId(), result.imageId());
         }
 
         @Test
@@ -77,7 +78,7 @@ public class ImageServiceUnitTest {
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(imageDTO.getImageId(), result.get(0).getImageId());
+            assertEquals(imageDTO.imageId(), result.get(0).imageId());
         }
 
         @Test
@@ -85,14 +86,14 @@ public class ImageServiceUnitTest {
         void testGetImagesByBookId() {
             // given
             List<Image> images = Collections.singletonList(image);
-            given(imageRepository.findImagesByBookId(imageDTO.getBookId())).willReturn(images);
+            given(imageRepository.findImagesByBookId(imageDTO.bookId())).willReturn(images);
 
             // when
-            List<ImageDTO> result = imageService.getImagesByBookId(imageDTO.getBookId());
+            List<ImageDTO> result = imageService.getImagesByBookId(imageDTO.bookId());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(imageDTO.getBookId(), result.get(0).getBookId());
+            assertEquals(imageDTO.bookId(), result.get(0).bookId());
         }
 
         @Test
@@ -100,14 +101,14 @@ public class ImageServiceUnitTest {
         void testGetImagesByCameraId() {
             // given
             List<Image> images = Collections.singletonList(image);
-            given(imageRepository.findImagesByCameraId(imageDTO.getCameraId())).willReturn(images);
+            given(imageRepository.findImagesByCameraId(imageDTO.cameraId())).willReturn(images);
 
             // when
-            List<ImageDTO> result = imageService.getImagesByCameraId(imageDTO.getCameraId());
+            List<ImageDTO> result = imageService.getImagesByCameraId(imageDTO.cameraId());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(imageDTO.getCameraId(), result.get(0).getCameraId());
+            assertEquals(imageDTO.cameraId(), result.get(0).cameraId());
         }
 
         @Test
@@ -115,14 +116,14 @@ public class ImageServiceUnitTest {
         void testGetImagesByImageTimeGreaterThan() {
             // given
             List<Image> images = Collections.singletonList(image);
-            given(imageRepository.findImagesByImageTimeGreaterThan(imageDTO.getImageTime())).willReturn(images);
+            given(imageRepository.findImagesByImageTimeGreaterThan(imageDTO. imageTime())).willReturn(images);
 
             // when
-            List<ImageDTO> result = imageService.getImagesByImageTimeGreaterThan(imageDTO.getImageTime());
+            List<ImageDTO> result = imageService.getImagesByImageTimeGreaterThan(imageDTO.imageTime());
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(imageDTO.getImageTime(), result.get(0).getImageTime());
+            assertEquals(imageDTO.imageTime(), result.get(0).imageTime());
         }
 
         @Test
@@ -131,14 +132,14 @@ public class ImageServiceUnitTest {
             // given
             LocalDate endDate = LocalDate.now().plusDays(1);
             List<Image> images = Collections.singletonList(image);
-            given(imageRepository.findImagesByImageTimeBetween(imageDTO.getImageTime(), endDate)).willReturn(images);
+            given(imageRepository.findImagesByImageTimeBetween(imageDTO.imageTime(), endDate)).willReturn(images);
 
             // when
-            List<ImageDTO> result = imageService.getImagesByImageTimeBetween(imageDTO.getImageTime(), endDate);
+            List<ImageDTO> result = imageService.getImagesByImageTimeBetween(imageDTO.imageTime(), endDate);
 
             // then
             assertFalse(result.isEmpty());
-            assertEquals(imageDTO.getImageTime(), result.get(0).getImageTime());
+            assertEquals(imageDTO.imageTime(), result.get(0).imageTime());
         }
 
         @Test
@@ -155,30 +156,30 @@ public class ImageServiceUnitTest {
         @DisplayName("getImagesByBookId - ListNotFoundElementException 테스트")
         void testGetImagesByBookId_ThrowsListNotFoundElementException() {
             // given
-            given(imageRepository.findImagesByBookId(imageDTO.getBookId())).willReturn(new ArrayList<>());
+            given(imageRepository.findImagesByBookId(imageDTO.bookId())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByBookId(imageDTO.getBookId()));
+            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByBookId(imageDTO.bookId()));
         }
 
         @Test
         @DisplayName("getImagesByCameraId - ListNotFoundElementException 테스트")
         void testGetImagesByCameraId_ThrowsListNotFoundElementException() {
             // given
-            given(imageRepository.findImagesByCameraId(imageDTO.getCameraId())).willReturn(new ArrayList<>());
+            given(imageRepository.findImagesByCameraId(imageDTO.cameraId())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByCameraId(imageDTO.getCameraId()));
+            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByCameraId(imageDTO.cameraId()));
         }
 
         @Test
         @DisplayName("getImagesByImageTimeGreaterThan - ListNotFoundElementException 테스트")
         void testGetImagesByImageTimeGreaterThan_ThrowsListNotFoundElementException() {
             // given
-            given(imageRepository.findImagesByImageTimeGreaterThan(imageDTO.getImageTime())).willReturn(new ArrayList<>());
+            given(imageRepository.findImagesByImageTimeGreaterThan(imageDTO.imageTime())).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByImageTimeGreaterThan(imageDTO.getImageTime()));
+            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByImageTimeGreaterThan(imageDTO.imageTime()));
         }
 
         @Test
@@ -186,10 +187,10 @@ public class ImageServiceUnitTest {
         void testGetImagesByImageTimeBetween_ThrowsListNotFoundElementException() {
             // given
             LocalDate endDate = LocalDate.now().plusDays(1);
-            given(imageRepository.findImagesByImageTimeBetween(imageDTO.getImageTime(), endDate)).willReturn(new ArrayList<>());
+            given(imageRepository.findImagesByImageTimeBetween(imageDTO.imageTime(), endDate)).willReturn(new ArrayList<>());
 
             // when & then
-            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByImageTimeBetween(imageDTO.getImageTime(), endDate));
+            assertThrows(ListNotFoundElementException.class, () -> imageService.getImagesByImageTimeBetween(imageDTO.imageTime(), endDate));
         }
     }
 
@@ -208,7 +209,7 @@ public class ImageServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(imageDTO.getImageId(), result.getImageId());
+            assertEquals(imageDTO.imageId(), result.imageId());
         }
     }
 
@@ -227,7 +228,7 @@ public class ImageServiceUnitTest {
 
             // then
             assertNotNull(result);
-            assertEquals(imageDTO.getImageId(), result.getImageId());
+            assertEquals(imageDTO.imageId(), result.imageId());
         }
     }
 
@@ -239,13 +240,13 @@ public class ImageServiceUnitTest {
         @DisplayName("deleteImage 테스트")
         void testDeleteImage() {
             // given
-            willDoNothing().given(imageRepository).deleteById(imageDTO.getImageId());
+            willDoNothing().given(imageRepository).deleteById(imageDTO.imageId());
 
             // when
-            imageService.deleteImage(imageDTO.getImageId());
+            imageService.deleteImage(imageDTO.imageId());
 
             // then
-            verify(imageRepository, times(1)).deleteById(imageDTO.getImageId());
+            verify(imageRepository, times(1)).deleteById(imageDTO.imageId());
         }
     }
 }
