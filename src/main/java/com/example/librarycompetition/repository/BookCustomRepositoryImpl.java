@@ -11,7 +11,11 @@ import java.util.List;
 
 public class BookCustomRepositoryImpl implements BookCustomRepository {
 
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
+
+    public BookCustomRepositoryImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     @Override
     public List<BookDTO> findBooksByDynamicQuery(String bookTitle, String bookAuthor, Integer bookDamage) {
