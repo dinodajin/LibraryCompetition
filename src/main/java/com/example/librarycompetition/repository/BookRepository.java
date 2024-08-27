@@ -15,6 +15,7 @@ public interface BookRepository extends MongoRepository<Book, String>, BookCusto
     List<Book> findBooksByBookAuthorContaining(String bookAuthor);
     List<Book> findBooksByBookDamage(Integer bookDamage);
     List<Book> findBooksByBookLabel(String bookLabel);
+    List<Book> findBooksByBookWarning(String bookWarning);
 
     // CREATE
 

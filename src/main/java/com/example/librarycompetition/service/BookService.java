@@ -111,6 +111,22 @@ public class BookService {
     }
 
     @Transactional
+    public List<BookDTO> getBooksByBookWarning(String bookWarning) {
+        List<Book> books = bookRepository.findBooksByBookWarning(bookWarning);
+
+        if(books.isEmpty()) {
+            throw new ListNotFoundElementException();
+        }
+
+        List<BookDTO> bookDTOs = new ArrayList<>();
+        for (Book book : books) {
+            bookDTOs.add(BookDTO.from(book));
+        }
+
+        return bookDTOs;
+    }
+
+    @Transactional
     public BookDTO createBook(BookDTO bookDTO) {
         return BookDTO.from(bookRepository.insert(bookDTO.toEntity()));
     }
