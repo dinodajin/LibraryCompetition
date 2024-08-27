@@ -12,14 +12,16 @@ public record BookDTO(
         String bookTitle,
         @Schema(example = "가나다")
         String bookAuthor,
+        @Schema(example = "정상")
+        String bookWarning,
         @Schema(example = "30")
         Integer bookDamage,
         @Schema(example = "가나다")
         String bookLabel
 ) {
 
-    public static BookDTO of(String bookId, Integer bookSequence, String bookTitle, String bookAuthor, Integer bookDamage, String bookLabel) {
-        return new BookDTO(bookId, bookSequence, bookTitle, bookAuthor, bookDamage, bookLabel);
+    public static BookDTO of(String bookId, Integer bookSequence, String bookTitle, String bookAuthor, String bookWarning, Integer bookDamage, String bookLabel) {
+        return new BookDTO(bookId, bookSequence, bookTitle, bookAuthor, bookWarning, bookDamage, bookLabel);
     }
 
     public static BookDTO from(Book book) {
@@ -28,6 +30,7 @@ public record BookDTO(
                 book.getBookSequence(),
                 book.getBookTitle(),
                 book.getBookAuthor(),
+                book.getBookWarning(),
                 book.getBookDamage(),
                 book.getBookLabel()
         );
@@ -39,6 +42,7 @@ public record BookDTO(
                 .bookSequence(bookSequence)
                 .bookTitle(bookTitle)
                 .bookAuthor(bookAuthor)
+                .bookWarning(bookWarning)
                 .bookDamage(bookDamage)
                 .bookLabel(bookLabel)
                 .build();
