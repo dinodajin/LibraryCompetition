@@ -63,6 +63,18 @@ public class MemberController {
         return new ResponseEntity<>(memberService.getMembersByMemberName(memberName), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get Members", description = "멤버 위험도로 멤버 리스트 검색하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "멤버 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = MemberDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "멤버 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+    })
+    @GetMapping("/get/memberWarning/{memberWarning}")
+    public ResponseEntity<List<MemberDTO>> getMembersByMemberWarning(@Parameter(description = "멤버 위험도")
+                                                                         @PathVariable String memberWarning) {
+        log.info("getMembersByMemberWarning : memberWarning = {}", memberWarning);
+        return new ResponseEntity<>(memberService.getMembersByMemberWarning(memberWarning), HttpStatus.OK);
+    }
+
     @Operation(summary = "Create Member", description = "멤버 정보로 멤버 생성하기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "멤버 생성 성공", content = @Content(schema = @Schema(implementation = MemberDTO.class))),

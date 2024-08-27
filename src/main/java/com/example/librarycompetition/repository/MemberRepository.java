@@ -13,6 +13,7 @@ public interface MemberRepository extends MongoRepository<Member, String> {
     // READ
     Optional<Member> findByMemberId(String memberId);
     List<Member> findByMemberNameContaining(String memberName);
+    List<Member> findByMemberWarning(String memberWarning);
 
     // CREATE
 
