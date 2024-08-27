@@ -1,6 +1,7 @@
 package com.example.librarycompetition.repository;
 
 import com.example.librarycompetition.domain.Book;
+import com.example.librarycompetition.repository.custom.BookCustomRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.librarycompetition.repository;
+package com.example.librarycompetition.repository.custom;
 
 import com.example.librarycompetition.dto.BookDTO;
 

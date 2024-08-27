@@ -4,10 +4,9 @@ import com.example.librarycompetition.domain.Book;
 import com.example.librarycompetition.dto.BookDTO;
 import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
-import com.example.librarycompetition.repository.BookCustomRepositoryImpl;
+import com.example.librarycompetition.repository.custom.BookCustomRepositoryImpl;
 import com.example.librarycompetition.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
