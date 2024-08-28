@@ -14,14 +14,17 @@ public record LoanDTO(
         LocalDate returnTime,
         @Schema(example = "책이 손상됐어요!")
         String declaration,
+        @Schema(example = "훼손")
+        String damageDegree,
         @Schema(example = "1")
         String memberId,
         @Schema(example = "1")
         String bookId
 ) {
 
-    public static LoanDTO of(String loanId, LocalDate loanTime, LocalDate returnTime, String declaration, String memberId, String bookId) {
-        return new LoanDTO(loanId, loanTime, returnTime, declaration, memberId, bookId);
+    public static LoanDTO of(String loanId, LocalDate loanTime, LocalDate returnTime,
+                             String declaration, String damageDegree, String memberId, String bookId) {
+        return new LoanDTO(loanId, loanTime, returnTime, declaration, damageDegree, memberId, bookId);
     }
 
     public static LoanDTO from(Loan loan) {
@@ -30,6 +33,7 @@ public record LoanDTO(
                 loan.getLoanTime(),
                 loan.getReturnTime(),
                 loan.getDeclaration(),
+                loan.getDamageDegree(),
                 loan.getMemberId(),
                 loan.getBookId()
         );
@@ -41,6 +45,7 @@ public record LoanDTO(
                 .loanTime(loanTime)
                 .returnTime(returnTime)
                 .declaration(declaration)
+                .damageDegree(damageDegree)
                 .memberId(memberId)
                 .bookId(bookId)
                 .build();

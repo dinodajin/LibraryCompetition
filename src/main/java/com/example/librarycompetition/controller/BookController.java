@@ -80,7 +80,7 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
             @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
-    @GetMapping("/get/bookDamage/{bookDamage}")
+    @GetMapping("/get/bookDamage/greater/{bookDamage}")
     public ResponseEntity<List<BookDTO>> getBooksByBookDamageGreaterThanEqual(@Parameter(description = "책 손상도")
                                                                   @PathVariable Integer bookDamage) {
         log.info("getBooksByBookDamageGreaterThanEqual : bookDamage = {}", bookDamage);
@@ -92,7 +92,7 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
             @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
-    @GetMapping("/get/bookDamage/{bookDamage}")
+    @GetMapping("/get/bookDamage/less/{bookDamage}")
     public ResponseEntity<List<BookDTO>> getBooksByBookDamageLessThanEqual(@Parameter(description = "책 손상도")
                                                                               @PathVariable Integer bookDamage) {
         log.info("getBooksByBookDamageLessThanEqual : bookDamage = {}", bookDamage);
