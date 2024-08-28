@@ -13,7 +13,8 @@ public interface BookRepository extends MongoRepository<Book, String>, BookCusto
     Optional<Book> findByBookId(String bookId);
     List<Book> findBooksByBookTitleContaining(String bookTitle);
     List<Book> findBooksByBookAuthorContaining(String bookAuthor);
-    List<Book> findBooksByBookDamage(Integer bookDamage);
+    List<Book> findBooksByBookDamageGreaterThanEqual(Integer bookDamage);
+    List<Book> findBooksByBookDamageLessThanEqual(Integer bookDamage);
     List<Book> findBooksByBookLabel(String bookLabel);
     List<Book> findBooksByBookWarning(String bookWarning);
 

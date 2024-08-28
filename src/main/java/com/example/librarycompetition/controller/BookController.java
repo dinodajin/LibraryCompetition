@@ -76,17 +76,29 @@ public class BookController {
         return new ResponseEntity<>(bookService.getBooksByBookAuthor(bookAuthor), HttpStatus.OK);
     }
 
-//    @Operation(summary = "Get Books", description = "책 손상도로 책 리스트 검색하기")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
-//            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
-//    })
-//    @GetMapping("/get/bookDamage/{bookDamage}")
-//    public ResponseEntity<List<BookDTO>> getBooksByBookDamage(@Parameter(description = "책 손상도")
-//                                                                  @PathVariable Integer bookDamage) {
-//        log.info("getBooksByBookDamage : bookDamage = {}", bookDamage);
-//        return new ResponseEntity<>(bookService.getBooksByBookDamage(bookDamage), HttpStatus.OK);
-//    }
+    @Operation(summary = "Get Books", description = "입력한 손상도보다 같거나 큰 손상도를 가진 책 리스트 검색하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+    })
+    @GetMapping("/get/bookDamage/{bookDamage}")
+    public ResponseEntity<List<BookDTO>> getBooksByBookDamageGreaterThanEqual(@Parameter(description = "책 손상도")
+                                                                  @PathVariable Integer bookDamage) {
+        log.info("getBooksByBookDamageGreaterThanEqual : bookDamage = {}", bookDamage);
+        return new ResponseEntity<>(bookService.getBooksByBookDamageGreaterThanEqual(bookDamage), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get Books", description = "입력한 손상도보다 같거나 작은 손상도를 가진 책 리스트 검색하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+    })
+    @GetMapping("/get/bookDamage/{bookDamage}")
+    public ResponseEntity<List<BookDTO>> getBooksByBookDamageLessThanEqual(@Parameter(description = "책 손상도")
+                                                                              @PathVariable Integer bookDamage) {
+        log.info("getBooksByBookDamageLessThanEqual : bookDamage = {}", bookDamage);
+        return new ResponseEntity<>(bookService.getBooksByBookDamageLessThanEqual(bookDamage), HttpStatus.OK);
+    }
 
     @Operation(summary = "Get Books", description = "책 라벨로 책 리스트 검색하기")
     @ApiResponses(value = {

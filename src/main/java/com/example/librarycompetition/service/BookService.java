@@ -74,8 +74,24 @@ public class BookService {
     }
 
     @Transactional
-    public List<BookDTO> getBooksByBookDamage(Integer bookDamage) {
-        List<Book> books = bookRepository.findBooksByBookDamage(bookDamage);
+    public List<BookDTO> getBooksByBookDamageGreaterThanEqual(Integer bookDamage) {
+        List<Book> books = bookRepository.findBooksByBookDamageGreaterThanEqual(bookDamage);
+
+        if(books.isEmpty()) {
+            throw new ListNotFoundElementException();
+        }
+
+        List<BookDTO> bookDTOs = new ArrayList<>();
+        for (Book book : books) {
+            bookDTOs.add(BookDTO.from(book));
+        }
+
+        return bookDTOs;
+    }
+
+    @Transactional
+    public List<BookDTO> getBooksByBookDamageLessThanEqual(Integer bookDamage) {
+        List<Book> books = bookRepository.findBooksByBookDamageLessThanEqual(bookDamage);
 
         if(books.isEmpty()) {
             throw new ListNotFoundElementException();
