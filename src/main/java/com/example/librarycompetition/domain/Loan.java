@@ -22,6 +22,7 @@ public class Loan {
     private LocalDate loanTime;
     private LocalDate returnTime;
     private String declaration;
+    private String damageDegree;
     private String memberId;
     private String bookId;
 

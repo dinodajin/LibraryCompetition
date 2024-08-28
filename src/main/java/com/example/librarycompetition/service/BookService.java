@@ -4,10 +4,9 @@ import com.example.librarycompetition.domain.Book;
 import com.example.librarycompetition.dto.BookDTO;
 import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
-import com.example.librarycompetition.repository.BookCustomRepositoryImpl;
+import com.example.librarycompetition.repository.custom.BookCustomRepositoryImpl;
 import com.example.librarycompetition.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,8 +74,24 @@ public class BookService {
     }
 
     @Transactional
-    public List<BookDTO> getBooksByBookDamage(Integer bookDamage) {
-        List<Book> books = bookRepository.findBooksByBookDamage(bookDamage);
+    public List<BookDTO> getBooksByBookDamageGreaterThanEqual(Integer bookDamage) {
+        List<Book> books = bookRepository.findBooksByBookDamageGreaterThanEqual(bookDamage);
+
+        if(books.isEmpty()) {
+            throw new ListNotFoundElementException();
+        }
+
+        List<BookDTO> bookDTOs = new ArrayList<>();
+        for (Book book : books) {
+            bookDTOs.add(BookDTO.from(book));
+        }
+
+        return bookDTOs;
+    }
+
+    @Transactional
+    public List<BookDTO> getBooksByBookDamageLessThanEqual(Integer bookDamage) {
+        List<Book> books = bookRepository.findBooksByBookDamageLessThanEqual(bookDamage);
 
         if(books.isEmpty()) {
             throw new ListNotFoundElementException();
@@ -107,8 +122,25 @@ public class BookService {
     }
 
     @Transactional
-    public List<BookDTO> getBooksByCondition(String bookTitle, String bookAuthor, Integer bookDamage) {
-        return bookCustomRepository.findBooksByDynamicQuery(bookTitle, bookAuthor, bookDamage);
+    public List<BookDTO> getBooksByCondition(String bookTitle, String bookAuthor,
+                                             Integer bookDamage, String damageOption) {
+        return bookCustomRepository.findBooksByDynamicQuery(bookTitle, bookAuthor, bookDamage, damageOption);
+    }
+
+    @Transactional
+    public List<BookDTO> getBooksByBookWarning(String bookWarning) {
+        List<Book> books = bookRepository.findBooksByBookWarning(bookWarning);
+
+        if(books.isEmpty()) {
+            throw new ListNotFoundElementException();
+        }
+
+        List<BookDTO> bookDTOs = new ArrayList<>();
+        for (Book book : books) {
+            bookDTOs.add(BookDTO.from(book));
+        }
+
+        return bookDTOs;
     }
 
     @Transactional

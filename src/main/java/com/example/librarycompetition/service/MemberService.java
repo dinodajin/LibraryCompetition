@@ -57,6 +57,21 @@ public class MemberService {
     }
 
     @Transactional
+    public List<MemberDTO> getMembersByMemberWarning(String memberWarning) {
+        List<Member> members = memberRepository.findByMemberWarning(memberWarning);
+
+        if (members.isEmpty()) {
+            throw new ListNotFoundElementException();
+        }
+        List<MemberDTO> memberDTOs = new ArrayList<>();
+        for (Member member : members) {
+            memberDTOs.add(MemberDTO.from(member));
+        }
+
+        return memberDTOs;
+    }
+
+    @Transactional
     public MemberDTO createMember(MemberDTO memberDTO) {
         return MemberDTO.from(memberRepository.insert(memberDTO.toEntity()));
     }

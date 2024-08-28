@@ -4,6 +4,7 @@ import com.example.librarycompetition.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record MemberDTO(
         @Schema(example = "1")
@@ -17,11 +18,14 @@ public record MemberDTO(
         @Schema(example = "정상")
         String memberWarning,
         @Schema(example = "1")
-        Integer memberDamageCount
+        Integer memberDamageCount,
+        @Schema(example = "[1, 2, 3]")
+        List<String> loanIds
 ) {
 
-    public static MemberDTO of(String memberId, String memberName, LocalDate memberBirth, String memberPhoneNumber, String memberWarning, Integer memberDamageCount) {
-        return new MemberDTO(memberId, memberName, memberBirth, memberPhoneNumber, memberWarning, memberDamageCount);
+    public static MemberDTO of(String memberId, String memberName, LocalDate memberBirth, String memberPhoneNumber,
+                               String memberWarning, Integer memberDamageCount, List<String> loanIds) {
+        return new MemberDTO(memberId, memberName, memberBirth, memberPhoneNumber, memberWarning, memberDamageCount, loanIds);
     }
 
     public static MemberDTO from(Member member) {
@@ -31,7 +35,8 @@ public record MemberDTO(
                 member.getMemberBirth(),
                 member.getMemberPhoneNumber(),
                 member.getMemberWarning(),
-                member.getMemberDamageCount()
+                member.getMemberDamageCount(),
+                member.getLoanIds()
         );
     }
 
@@ -43,6 +48,7 @@ public record MemberDTO(
                 .memberPhoneNumber(memberPhoneNumber)
                 .memberWarning(memberWarning)
                 .memberDamageCount(memberDamageCount)
+                .loanIds(loanIds)
                 .build();
     }
 }
