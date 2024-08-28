@@ -27,6 +27,6 @@ public class Member {
     private String memberWarning;
     private Integer memberDamageCount;
 
-    private List<Loan> loans = new ArrayList<>();
+    private List<String> loanIds = new ArrayList<>();
 
 }
