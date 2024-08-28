@@ -5,5 +5,6 @@ import com.example.librarycompetition.dto.BookDTO;
 import java.util.List;
 
 public interface BookCustomRepository {
-    List<BookDTO> findBooksByDynamicQuery(String bookTitle, String bookAuthor, Integer bookDamage);
+    List<BookDTO> findBooksByDynamicQuery(String bookTitle, String bookAuthor,
+                                          Integer bookDamage, String damageOption);
 }

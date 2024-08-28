@@ -18,19 +18,24 @@ public class BookCustomRepositoryImpl implements BookCustomRepository {
     }
 
     @Override
-    public List<BookDTO> findBooksByDynamicQuery(String bookTitle, String bookAuthor, Integer bookDamage) {
+    public List<BookDTO> findBooksByDynamicQuery(String bookTitle, String bookAuthor,
+                                                 Integer bookDamage, String damageOption) {
         Query query = new Query();
 
         if (bookTitle != null && !bookTitle.isEmpty()) {
-            query.addCriteria(Criteria.where("bookTitle").regex(bookTitle, "i")); // 대소문자 구분없이 검색
+            query.addCriteria(Criteria.where("bookTitle").regex(".*" + bookTitle + ".*", "i"));
         }
 
         if (bookAuthor != null && !bookAuthor.isEmpty()) {
-            query.addCriteria(Criteria.where("bookAuthor").regex(bookAuthor, "i"));
+            query.addCriteria(Criteria.where("bookAuthor").regex(".*" + bookAuthor + ".*", "i"));
         }
 
-        if (bookDamage != null) {
-            query.addCriteria(Criteria.where("bookDamage").is(bookDamage));
+        if (bookDamage != null && damageOption != null) {
+            if (damageOption.equals("이상")) {
+                query.addCriteria(Criteria.where("bookDamage").gte(bookDamage));
+            } else if (damageOption.equals("이하")) {
+                query.addCriteria(Criteria.where("bookDamage").lte(bookDamage));
+            }
         }
 
         List<Book> bookList = mongoTemplate.find(query, Book.class);

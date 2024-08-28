@@ -1,7 +1,6 @@
 package com.example.librarycompetition.controller;
 
 import com.example.librarycompetition.dto.BookDTO;
-import com.example.librarycompetition.dto.MemberDTO;
 import com.example.librarycompetition.exception.ErrorDTO;
 import com.example.librarycompetition.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -112,21 +111,23 @@ public class BookController {
         return new ResponseEntity<>(bookService.getBooksByBookLabel(bookLabel), HttpStatus.OK);
     }
 
-//    @Operation(summary = "Get Books", description = "책 조건으로 책 리스트 검색하기")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
-//            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
-//    })
-//    @GetMapping("/get/condition")
-//    public ResponseEntity<List<BookDTO>> getBooksByCondition(@Parameter(description = "책 제목")
-//                                                                 @RequestParam String bookTitle,
-//                                                             @Parameter(description = "책 저자")
-//                                                                 @RequestParam String bookAuthor,
-//                                                             @Parameter(description = "책 손상도")
-//                                                                 @RequestParam Integer bookDamage) {
-//        log.info("getBooksByCondition : bookTitle = {}, bookAuthor = {}, bookDamage = {}", bookTitle, bookAuthor, bookDamage);
-//        return new ResponseEntity<>(bookService.getBooksByCondition(bookTitle, bookAuthor, bookDamage), HttpStatus.OK);
-//    }
+    @Operation(summary = "Get Books", description = "책 조건으로 책 리스트 검색하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "책 리스트 검색 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "책 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+    })
+    @GetMapping("/get/condition")
+    public ResponseEntity<List<BookDTO>> getBooksByCondition(@Parameter(description = "책 제목")
+                                                                 @RequestParam String bookTitle,
+                                                             @Parameter(description = "책 저자")
+                                                                 @RequestParam String bookAuthor,
+                                                             @Parameter(description = "책 손상도")
+                                                                 @RequestParam Integer bookDamage,
+                                                             @Parameter(description = "손상도 옵션")
+                                                                 @RequestParam String damageOption) {
+        log.info("getBooksByCondition : bookTitle = {}, bookAuthor = {}, bookDamage = {}, damageOption = {}", bookTitle, bookAuthor, bookDamage, damageOption);
+        return new ResponseEntity<>(bookService.getBooksByCondition(bookTitle, bookAuthor, bookDamage, damageOption), HttpStatus.OK);
+    }
 
     @Operation(summary = "Get Books", description = "책 위험도로 책 리스트 검색하기")
     @ApiResponses(value = {

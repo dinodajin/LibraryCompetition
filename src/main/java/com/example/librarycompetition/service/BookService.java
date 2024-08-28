@@ -122,8 +122,9 @@ public class BookService {
     }
 
     @Transactional
-    public List<BookDTO> getBooksByCondition(String bookTitle, String bookAuthor, Integer bookDamage) {
-        return bookCustomRepository.findBooksByDynamicQuery(bookTitle, bookAuthor, bookDamage);
+    public List<BookDTO> getBooksByCondition(String bookTitle, String bookAuthor,
+                                             Integer bookDamage, String damageOption) {
+        return bookCustomRepository.findBooksByDynamicQuery(bookTitle, bookAuthor, bookDamage, damageOption);
     }
 
     @Transactional
