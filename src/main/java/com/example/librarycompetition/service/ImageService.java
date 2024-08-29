@@ -4,18 +4,17 @@ import com.example.librarycompetition.domain.Image;
 import com.example.librarycompetition.dto.ImageDTO;
 import com.example.librarycompetition.exception.ListNotFoundElementException;
 import com.example.librarycompetition.exception.ResourceNotFoundException;
-import com.example.librarycompetition.io.CustomMultipartFile;
 import com.example.librarycompetition.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.springframework.core.io.InputStreamResource;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -114,9 +113,9 @@ public class ImageService {
         return imageDTOs;
     }
 
-    public MultipartFile getImageFileByImageId(Integer imageId) throws IOException {
+    public Resource getImageFileByImageId(Integer imageId) throws IOException {
         // 파일 경로 생성
-        String fileName = "image" + imageId;
+        String fileName = "image" + imageId + ".jpg";
         Path filePath = Paths.get(DEFAULT_PATH, fileName);
 
         // 파일이 존재하는지 확인
@@ -126,15 +125,31 @@ public class ImageService {
 
         // 파일을 바이트 배열로 읽기
         byte[] fileContent = Files.readAllBytes(filePath);
-        String contentType = Files.probeContentType(filePath);
 
-        // CustomMultipartFile로 변환하여 반환
-        return new CustomMultipartFile(fileContent, fileName, contentType);
+        return new ByteArrayResource(fileContent);
     }
 
-//    public List<MultipartFile> postImagesFileByImageIdList(List<Integer> imageIdList) {
-//
-//    }
+    public List<Resource> postImagesFileByImageIdList(List<Integer> imageIdList) throws IOException {
+        List<Resource> imageFileList = new ArrayList<>();
+
+        for (Integer imageId : imageIdList) {
+            // 파일 경로 생성
+            String fileName = "image" + imageId;
+            Path filePath = Paths.get(DEFAULT_PATH, fileName);
+
+            // 파일이 존재하는지 확인
+            if (!Files.exists(filePath)) {
+                throw new FileNotFoundException("File not found: " + filePath);
+            }
+
+            // 파일을 바이트 배열로 읽기
+            byte[] fileContent = Files.readAllBytes(filePath);
+
+            imageFileList.add(new ByteArrayResource(fileContent));
+        }
+
+        return imageFileList;
+    }
 
     @Transactional
     public ImageDTO createImage(ImageDTO imageDTO) {
