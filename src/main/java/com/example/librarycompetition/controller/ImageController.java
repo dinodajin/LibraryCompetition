@@ -13,12 +13,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -105,27 +104,27 @@ public class ImageController {
 
     @Operation(summary = "Get Image File", description = "이미지 인덱스로 이미지 파일 전송하기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "이미지 파일 전송 성공", content = @Content(schema = @Schema(implementation = MultipartFile.class))),
+            @ApiResponse(responseCode = "200", description = "이미지 파일 전송 성공", content = @Content(mediaType = "application/octet-stream")),
             @ApiResponse(responseCode = "404", description = "이미지 파일이 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
     @GetMapping("/get/file/{imageId}")
-    public ResponseEntity<MultipartFile> getImageFileByImageId(@Parameter(description = "이미지 인덱스")
+    public ResponseEntity<Resource> getImageFileByImageId(@Parameter(description = "이미지 인덱스")
                                                                    @PathVariable Integer imageId) throws IOException {
         log.info("getImageFileByImageId: imageId = {}", imageId);
         return new ResponseEntity<>(imageService.getImageFileByImageId(imageId), HttpStatus.OK);
     }
 
-//    @Operation(summary = "Post Image Files", description = "이미지 인덱스 리스트로 이미지 파일 리스트 전송하기")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "이미지 파일 리스트 전송 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = MultipartFile.class)))),
-//            @ApiResponse(responseCode = "404", description = "이미지 파일 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
-//    })
-//    @PostMapping("/get/files")
-//    public ResponseEntity<List<MultipartFile>> postImagesFileByImageIdList(@Parameter(description = "이미지 인덱스")
-//                                                               @RequestBody List<Integer> imageIdList) {
-//        log.info("postImageFileByImageId: imageIdList = {}", imageIdList);
-//        return new ResponseEntity<>(imageService.postImagesFileByImageIdList(imageIdList), HttpStatus.OK);
-//    }
+    @Operation(summary = "Post Image Files", description = "이미지 인덱스 리스트로 이미지 파일 리스트 전송하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "이미지 파일 리스트 전송 성공", content = @Content(array = @ArraySchema(schema = @Schema(type = "string", format = "binary")))),
+            @ApiResponse(responseCode = "404", description = "이미지 파일 리스트가 존재하지 않습니다.", content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+    })
+    @PostMapping("/get/files")
+    public ResponseEntity<List<Resource>> postImagesFileByImageIdList(@Parameter(description = "이미지 인덱스")
+                                                               @RequestBody List<Integer> imageIdList) throws IOException {
+        log.info("postImageFileByImageId: imageIdList = {}", imageIdList);
+        return new ResponseEntity<>(imageService.postImagesFileByImageIdList(imageIdList), HttpStatus.OK);
+    }
 
     @Operation(summary = "Create Image", description = "이미지 정보로 이미지 생성하기")
     @ApiResponses(value = {
